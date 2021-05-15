@@ -25,6 +25,7 @@ The front-end dashboard of vocya showing the results of the API calls to the voc
 By default 'live search' is enabled, and every keystroke sends a 'search' API call and shows the results.
 When 'live search' is disabled by clicking on the button, a manual search button is enabled to send the 'search' API call when clicked.
 When clicking on the results, a single result page is opened where the 'raw properties' are shown.
+The current dashboard is hosted at: https://vocya.hetorus.nl
 
 ## Scripts
 
