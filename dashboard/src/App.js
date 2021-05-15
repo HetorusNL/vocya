@@ -6,6 +6,7 @@ import "./App.css";
 import About from "./components/pages/About";
 import Alert from "./components/layout/Alert";
 import Navbar from "./components/layout/Navbar";
+import CacheBuster from "./components/utils/CacheBuster";
 import Search from "./components/words/Search";
 import Word from "./components/words/Word";
 import Words from "./components/words/Words";
@@ -71,6 +72,37 @@ class App extends Component {
       <Router>
         <div className="App">
           <Navbar />
+          <CacheBuster>
+            {({
+              loading,
+              isLatestVersion,
+              currentVersion,
+              latestVersion,
+              refreshCacheAndReload,
+            }) => {
+              if (!loading && !isLatestVersion) {
+                return (
+                  <div
+                    style={{
+                      color: "var(--danger-color)",
+                      marginLeft: "auto",
+                      marginRight: "auto",
+                      padding: "1em",
+                    }}
+                    onClick={refreshCacheAndReload}
+                  >
+                    There is a new version of the vocya dashboard available!
+                    <br />
+                    You are using {currentVersion} and {latestVersion} is
+                    available.
+                    <br /> Click on this message to reload the window. <br />
+                    If this doesn't work try pressing Ctrl+F5 to force refresh
+                  </div>
+                );
+              }
+              return null;
+            }}
+          </CacheBuster>
           <div className="container">
             <Alert alert={this.state.alert} />
             <Switch>
