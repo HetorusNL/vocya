@@ -20,7 +20,7 @@ class App extends Component {
     showAllWordsButton: false,
   };
 
-  // initially search for the first X users by their id when the page loads
+  // initially show all words when the page loads
   async componentDidMount() {
     this.setState({ showAllWordsButton: false });
     await this.showAllWords();
@@ -33,7 +33,7 @@ class App extends Component {
     this.setState({ words: res.data, loading: false });
   };
 
-  // search github users via the github api
+  // search for words via the vocya API
   searchWords = async (text) => {
     this.setState({ loading: true });
     this.setState({ showAllWordsButton: true });
@@ -43,7 +43,7 @@ class App extends Component {
     this.setState({ words: res.data, loading: false });
   };
 
-  // get a single user via the github api
+  // get a single word via the vocya API
   getWord = async (id) => {
     this.setState({ loading: true });
     const res = await axios.get(`https://api.vocya.hetorus.nl/word/id/${id}`);

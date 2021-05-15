@@ -15,8 +15,6 @@ export class Word extends Component {
   };
 
   render() {
-    const { id, chapter, chapter_name, dutch, romaji } = this.props.word;
-
     const { loading } = this.props;
 
     if (loading) return <Spinner />;
@@ -31,11 +29,7 @@ export class Word extends Component {
           Back to Search
         </Link>
         <div className="card text-left" style={wordStyle}>
-          <p>id: {id}</p>
-          <p>chapter: {chapter}</p>
-          <p>chapter_name: {chapter_name}</p>
-          <p>dutch: {dutch}</p>
-          <p>romaji: {romaji}</p>
+          <pre>{JSON.stringify(this.props.word, null, 2)}</pre>
         </div>
       </Fragment>
     );
