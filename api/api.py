@@ -23,7 +23,7 @@ def word_chapter(id):
     return jsonify(res)
 
 
-@api.route("/search/word/<string:query>")
+@api.route("/search/word/<path:query>")
 def search_word(query):
     vocabulary = _get_vocabulary()
     res = []
