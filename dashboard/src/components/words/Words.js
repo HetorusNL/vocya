@@ -10,7 +10,8 @@ const Words = ({ words, loading }) => {
   } else {
     const wordStyle = {
       display: "grid",
-      gridTemplateColumns: "repeat(3, 1fr)",
+      maxWidth: "1500px",
+      gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
       gridGap: "1rem",
       marginTop: "1rem",
       marginBottom: "1rem",
