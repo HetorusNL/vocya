@@ -23,16 +23,21 @@ def word_chapter(id):
     return jsonify(res)
 
 
-@api.route("/search/word/<path:query>")
-def search_word(query):
+@api.route("/search/word/<string:fields>/<path:query>")
+def search_word(fields, query):
+    # distinguish between wildcard search (fields=*) and search in fields
+    wildcard_search = fields == "*"
+    fields = fields.split(",")
+    print(wildcard_search, fields)
+
     vocabulary = _get_vocabulary()
     res = []
     for entry in vocabulary:
         querywords_found = 0
         for queryword in query.split(" "):
-            for key in entry.keys():
-                # search case-insensitive
-                if queryword.lower() in entry[key].lower():
+            for key in entry.keys() if wildcard_search else fields:
+                # search case-insensitive (and testing if key exists)
+                if key in entry and queryword.lower() in entry[key].lower():
                     querywords_found += 1
                     break
         if querywords_found == len(query.split(" ")):
@@ -59,3 +64,7 @@ def _get_vocabulary():
                 new_keys[f"{key}_name"] = res[0].get("name")
         entry.update(new_keys)
     return vocabulary
+
+
+if __name__ == "__main__":
+    api.run()
