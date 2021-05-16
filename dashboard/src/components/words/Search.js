@@ -1,10 +1,12 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import Checkbox from "../utils/Checkbox";
 
 class Search extends Component {
   state = {
     text: "",
     liveSearch: true,
+    searchRomajiDutch: true,
   };
 
   static propTypes = {
@@ -14,18 +16,18 @@ class Search extends Component {
     setAlert: PropTypes.func.isRequired,
   };
 
-  toggleLiveSearch = () => {
-    this.setState({ liveSearch: !this.state.liveSearch });
+  searchWords = (query) => {
+    if (query === "") {
+      this.props.showAllWords();
+    } else {
+      this.props.searchWords(query, this.state.searchRomajiDutch);
+    }
   };
 
   onChange = (e) => {
-    this.setState({ [e.target.name]: e.target.value });
-    if (this.state.liveSearch)
-      if (e.target.value === "") {
-        this.props.showAllWords();
-      } else {
-        this.props.searchWords(e.target.value);
-      }
+    // this.setState({ [e.target.name]: e.target.value });
+    this.setState({ text: e.target.value });
+    if (this.state.liveSearch) this.searchWords(e.target.value);
   };
 
   onSubmit = (e) => {
@@ -33,25 +35,44 @@ class Search extends Component {
     if (this.state.text === "") {
       this.props.setAlert("Please enter something", "danger");
     } else {
-      this.props.searchWords(this.state.text);
-      this.setState({ text: "" });
+      this.searchWords(this.state.text);
     }
   };
 
   render() {
     const { showAllWords, showAllWordsButton } = this.props;
 
+    const wordStyle = {
+      display: "grid",
+      maxWidth: "1500px",
+      gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
+      gridGap: "1rem",
+      marginTop: "1rem",
+      marginBottom: "1rem",
+    };
+
     return (
       <div>
-        <button
-          className={
-            "btn btn-block " +
-            (this.state.liveSearch ? "btn-success" : "btn-danger")
-          }
-          onClick={this.toggleLiveSearch}
-        >
-          {(this.state.liveSearch ? "Disable" : "Enable") + " live search"}
-        </button>
+        <div style={wordStyle}>
+          <Checkbox
+            text="Live search"
+            update={(checked) => {
+              this.setState({ liveSearch: checked }, () => {
+                if (this.state.liveSearch) this.searchWords(this.state.text);
+              });
+            }}
+            defaultValue={true}
+          />
+          <Checkbox
+            text="Search only in romaji/Dutch"
+            update={(checked) => {
+              this.setState({ searchRomajiDutch: checked }, () => {
+                if (this.state.liveSearch) this.searchWords(this.state.text);
+              });
+            }}
+            defaultValue={true}
+          />
+        </div>
         <form onSubmit={this.onSubmit} className="form">
           <input
             type="text"

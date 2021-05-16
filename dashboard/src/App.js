@@ -34,11 +34,14 @@ class App extends Component {
   };
 
   // search for words via the vocya API
-  searchWords = async (text) => {
+  searchWords = async (text, searchRomajiDutch) => {
     this.setState({ loading: true });
     this.setState({ showAllWordsButton: true });
+    console.log(searchRomajiDutch);
     const res = await axios.get(
-      `https://api.vocya.hetorus.nl/search/word/${text}`
+      `https://api.vocya.hetorus.nl/search/word/${
+        searchRomajiDutch ? "romaji,dutch" : "*"
+      }/${text}`
     );
     this.setState({ words: res.data, loading: false });
   };
