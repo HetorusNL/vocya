@@ -11,7 +11,7 @@ const Words = ({ words, loading }) => {
     const wordStyle = {
       display: "grid",
       maxWidth: "1500px",
-      gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
+      gridTemplateColumns: "repeat(auto-fill, minmax(250px, 1fr))",
       gridGap: "1rem",
       marginTop: "1rem",
       marginBottom: "1rem",

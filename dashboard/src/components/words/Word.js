@@ -21,6 +21,7 @@ export class Word extends Component {
     const wordStyle = {
       marginTop: "1rem",
       marginBottom: "1rem",
+      width: "max-content",
     };
 
     return (
