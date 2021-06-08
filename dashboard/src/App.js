@@ -81,7 +81,7 @@ class App extends Component {
             flexDirection: "column",
           }}
         >
-          <Navbar />
+          <Navbar loading={loading} />
           <CacheBuster>
             {({
               loading,
