@@ -34,7 +34,7 @@ else
     sudo rm -rf /mnt/r/vocya.hetorus.nl/*
 
     echo ""
-    echo "copying HetorusNL Status Page to the server root"
+    echo "copying vocya dashboard to the server root"
     echo "cp -r build/* /mnt/r/vocya.hetorus.nl/"
     cp -r build/* /mnt/r/vocya.hetorus.nl/
 fi
