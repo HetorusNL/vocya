@@ -73,7 +73,14 @@ class App extends Component {
 
     return (
       <Router>
-        <div className="App">
+        <div
+          className="App"
+          style={{
+            height: "100vh",
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
           <Navbar />
           <CacheBuster>
             {({
@@ -106,13 +113,13 @@ class App extends Component {
               return null;
             }}
           </CacheBuster>
-          <div className="container">
-            <Alert alert={this.state.alert} />
-            <Switch>
-              <Route
-                exact
-                path="/"
-                render={(props) => (
+          <Alert alert={this.state.alert} />
+          <Switch>
+            <Route
+              exact
+              path="/"
+              render={(props) => (
+                <div className="container">
                   <Fragment>
                     <Search
                       searchWords={this.searchWords}
@@ -122,23 +129,55 @@ class App extends Component {
                     />
                     <Words loading={loading} words={words} />
                   </Fragment>
-                )}
-              />
-              <Route
-                exact
-                path="/word/id/:id"
-                render={(props) => (
+                </div>
+              )}
+            />
+            <Route
+              exact
+              path="/word/id/:id"
+              render={(props) => (
+                <div className="container">
                   <Word
                     {...props}
                     getWord={this.getWord}
                     word={word}
                     loading={loading}
                   />
-                )}
-              />
-              <Route exact path="/about" component={About} />
-            </Switch>
-          </div>
+                </div>
+              )}
+            />
+            <Route
+              exact
+              path="/table/hiragana"
+              render={(props) => (
+                <img
+                  src="/kana-tables/hiragana-dark.png"
+                  className="img-fill"
+                  alt="hiragana table"
+                />
+              )}
+            />
+            <Route
+              exact
+              path="/table/katakana"
+              render={(props) => (
+                <img
+                  src="/kana-tables/katakana-dark.png"
+                  className="img-fill"
+                  alt="katakana table"
+                />
+              )}
+            />
+            <Route
+              exact
+              path="/about"
+              render={(props) => (
+                <div className="container">
+                  <About />
+                </div>
+              )}
+            />
+          </Switch>
         </div>
       </Router>
     );
