@@ -30,14 +30,25 @@ def word_course(id):
     return jsonify(res)
 
 
+@api.route("/course/<string:id>/search/word/<string:fields>/<path:query>")
+def search_course_word(id, fields, query):
+    vocabulary = _get_vocabulary()
+    course_vocabulary = list(filter(lambda a: a["course"] == id, vocabulary))
+    return _search_words(course_vocabulary, fields, query)
+
+
 @api.route("/search/word/<string:fields>/<path:query>")
 def search_word(fields, query):
+    vocabulary = _get_vocabulary()
+    return _search_words(vocabulary, fields, query)
+
+
+def _search_words(vocabulary, fields, query):
     # distinguish between wildcard search (fields=*) and search in fields
     wildcard_search = fields == "*"
     fields = fields.split(",")
     print(wildcard_search, fields)
 
-    vocabulary = _get_vocabulary()
     res = []
     for entry in vocabulary:
         querywords_found = 0
