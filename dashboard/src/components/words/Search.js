@@ -1,98 +1,113 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
+import { useLocation, useParams } from "react-router-dom";
 import PropTypes from "prop-types";
 import Checkbox from "../utils/Checkbox";
 
-class Search extends Component {
-  state = {
-    text: "",
-    liveSearch: true,
-    searchRomajiDutch: true,
-  };
+const Search = ({
+  searchWords,
+  showAllWords,
+  showAllWordsButton,
+  setAlert,
+}) => {
+  const [text, setText] = useState("");
+  const [liveSearch, setLiveSearch] = useState(true);
+  const [searchWordOnly, setSearchWordOnly] = useState(true);
+  const location = useLocation();
+  let { course } = useParams();
 
-  static propTypes = {
-    searchWords: PropTypes.func.isRequired,
-    showAllWords: PropTypes.func.isRequired,
-    showAllWordsButton: PropTypes.bool.isRequired,
-    setAlert: PropTypes.func.isRequired,
-  };
+  useEffect(() => {
+    console.log("location changed, search for words");
+    _searchWords();
+    // we don't want _searchWords in the dependency array, so ignore the warning
+  }, [location]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  searchWords = (query) => {
-    if (query === "") {
-      this.props.showAllWords();
+  useEffect(() => {
+    console.log("checkboxes or text changed, maybe search for words");
+    if (liveSearch) _searchWords();
+    // we don't want _searchWords in the dependency array, so ignore the warning
+  }, [searchWordOnly, liveSearch, text]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  let _searchWords = () => {
+    console.log(text);
+    console.log(course, course ? "found course" : "found no course");
+    if (text === "") {
+      course ? showAllWords(course) : showAllWords();
     } else {
-      this.props.searchWords(query, this.state.searchRomajiDutch);
+      course
+        ? searchWords(course, text, searchWordOnly)
+        : searchWords(text, searchWordOnly);
     }
   };
 
-  onChange = (e) => {
-    // this.setState({ [e.target.name]: e.target.value });
-    this.setState({ text: e.target.value });
-    if (this.state.liveSearch) this.searchWords(e.target.value);
+  let onChange = (e) => {
+    setText(e.target.value);
+    if (liveSearch) _searchWords(e.target.value);
   };
 
-  onSubmit = (e) => {
+  let onSubmit = (e) => {
     e.preventDefault();
-    if (this.state.text === "") {
-      this.props.setAlert("Please enter something", "danger");
+    if (text === "") {
+      setAlert("Please enter something", "danger");
     } else {
-      this.searchWords(this.state.text);
+      _searchWords(text, searchWordOnly);
     }
   };
 
-  render() {
-    const { showAllWords, showAllWordsButton } = this.props;
+  const wordStyle = {
+    display: "grid",
+    maxWidth: "1500px",
+    gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
+    gridGap: "1rem",
+    marginTop: "1rem",
+    marginBottom: "1rem",
+  };
 
-    const wordStyle = {
-      display: "grid",
-      maxWidth: "1500px",
-      gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
-      gridGap: "1rem",
-      marginTop: "1rem",
-      marginBottom: "1rem",
-    };
-
-    return (
-      <div>
-        <div style={wordStyle}>
-          <Checkbox
-            text="Live search"
-            update={(checked) => {
-              this.setState({ liveSearch: checked }, () => {
-                if (this.state.liveSearch) this.searchWords(this.state.text);
-              });
-            }}
-            defaultValue={true}
-          />
-          <Checkbox
-            text="Search only in romaji/Dutch"
-            update={(checked) => {
-              this.setState({ searchRomajiDutch: checked }, () => {
-                if (this.state.liveSearch) this.searchWords(this.state.text);
-              });
-            }}
-            defaultValue={true}
-          />
-        </div>
-        <form onSubmit={this.onSubmit} className="form">
-          <input
-            type="text"
-            name="text"
-            placeholder="Search words..."
-            value={this.state.text}
-            onChange={this.onChange}
-          />
-          {!this.state.liveSearch && (
-            <input type="submit" value="Search" className="btn btn-block" />
-          )}
-        </form>
-        {showAllWordsButton && (
-          <button className="btn btn-block" onClick={showAllWords}>
-            Show all words
-          </button>
-        )}
+  return (
+    <div>
+      <div style={wordStyle}>
+        <Checkbox
+          text="Live search"
+          update={(checked) => setLiveSearch(checked)}
+          defaultValue={true}
+        />
+        <Checkbox
+          text="Search in words only"
+          update={(checked) => setSearchWordOnly(checked)}
+          defaultValue={true}
+        />
       </div>
-    );
-  }
-}
+      <form onSubmit={onSubmit} className="form">
+        <input
+          type="text"
+          name="text"
+          placeholder="Search words..."
+          value={text}
+          onChange={onChange}
+        />
+        {!liveSearch && (
+          <input type="submit" value="Search" className="btn btn-block" />
+        )}
+      </form>
+      {showAllWordsButton && (
+        <button
+          className="btn btn-block"
+          onClick={() => {
+            showAllWords();
+            setText("");
+          }}
+        >
+          Show all words
+        </button>
+      )}
+    </div>
+  );
+};
+
+Search.propTypes = {
+  searchWords: PropTypes.func.isRequired,
+  showAllWords: PropTypes.func.isRequired,
+  showAllWordsButton: PropTypes.bool.isRequired,
+  setAlert: PropTypes.func.isRequired,
+};
 
 export default Search;

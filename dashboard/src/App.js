@@ -20,12 +20,6 @@ class App extends Component {
     showAllWordsButton: false,
   };
 
-  // initially show all words when the page loads
-  async componentDidMount() {
-    this.setState({ showAllWordsButton: false });
-    await this.showAllWords();
-  }
-
   showAllWords = async () => {
     this.setState({ loading: true });
     this.setState({ showAllWordsButton: false });
@@ -34,13 +28,33 @@ class App extends Component {
   };
 
   // search for words via the vocya API
-  searchWords = async (text, searchRomajiDutch) => {
+  searchWords = async (text, searchWordOnly) => {
     this.setState({ loading: true });
     this.setState({ showAllWordsButton: true });
-    console.log(searchRomajiDutch);
     const res = await axios.get(
       `https://api.vocya.hetorus.nl/search/word/${
-        searchRomajiDutch ? "romaji,dutch" : "*"
+        searchWordOnly ? "romaji,dutch,hiragana,kanji" : "*"
+      }/${text}`
+    );
+    this.setState({ words: res.data, loading: false });
+  };
+
+  showAllCourseWords = async (course) => {
+    this.setState({ loading: true });
+    this.setState({ showAllWordsButton: false });
+    const res = await axios.get(
+      `https://api.vocya.hetorus.nl/word/course/${course}`
+    );
+    this.setState({ words: res.data, loading: false });
+  };
+
+  // search for words via the vocya API
+  searchCourseWords = async (course, text, searchWordOnly) => {
+    this.setState({ loading: true });
+    this.setState({ showAllWordsButton: true });
+    const res = await axios.get(
+      `https://api.vocya.hetorus.nl/course/${course}/search/word/${
+        searchWordOnly ? "romaji,dutch,hiragana,kanji" : "*"
       }/${text}`
     );
     this.setState({ words: res.data, loading: false });
@@ -50,7 +64,6 @@ class App extends Component {
   getWord = async (id) => {
     this.setState({ loading: true });
     const res = await axios.get(`https://api.vocya.hetorus.nl/word/id/${id}`);
-    console.log(res);
     this.setState({ word: res.data[0], loading: false });
   };
 
@@ -124,6 +137,24 @@ class App extends Component {
                     <Search
                       searchWords={this.searchWords}
                       showAllWords={this.showAllWords}
+                      showAllWordsButton={showAllWordsButton}
+                      setAlert={this.setAlert}
+                    />
+                    <Words loading={loading} words={words} />
+                  </Fragment>
+                </div>
+              )}
+            />
+            <Route
+              exact
+              path="/course/:course"
+              render={(props) => (
+                <div className="container">
+                  <Fragment>
+                    <Search
+                      course={props.course}
+                      searchWords={this.searchCourseWords}
+                      showAllWords={this.showAllCourseWords}
                       showAllWordsButton={showAllWordsButton}
                       setAlert={this.setAlert}
                     />
