@@ -23,6 +23,13 @@ def word_chapter(id):
     return jsonify(res)
 
 
+@api.route("/word/course/<string:id>")
+def word_course(id):
+    vocabulary = _get_vocabulary()
+    res = list(filter(lambda a: a["course"] == id, vocabulary))
+    return jsonify(res)
+
+
 @api.route("/search/word/<string:fields>/<path:query>")
 def search_word(fields, query):
     # distinguish between wildcard search (fields=*) and search in fields
