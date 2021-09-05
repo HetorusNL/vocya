@@ -22,14 +22,12 @@ const Search = ({
   }, [location]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    console.log("checkboxes or text changed, maybe search for words");
+    console.log("checkboxes or text changed, search for words if liveSearch");
     if (liveSearch) _searchWords();
     // we don't want _searchWords in the dependency array, so ignore the warning
   }, [searchWordOnly, liveSearch, text]); // eslint-disable-line react-hooks/exhaustive-deps
 
   let _searchWords = () => {
-    console.log(text);
-    console.log(course, course ? "found course" : "found no course");
     if (text === "") {
       course ? showAllWords(course) : showAllWords();
     } else {
@@ -37,11 +35,6 @@ const Search = ({
         ? searchWords(course, text, searchWordOnly)
         : searchWords(text, searchWordOnly);
     }
-  };
-
-  let onChange = (e) => {
-    setText(e.target.value);
-    if (liveSearch) _searchWords(e.target.value);
   };
 
   let onSubmit = (e) => {
@@ -82,7 +75,7 @@ const Search = ({
           name="text"
           placeholder="Search words..."
           value={text}
-          onChange={onChange}
+          onChange={(e) => setText(e.target.value)}
         />
         {!liveSearch && (
           <input type="submit" value="Search" className="btn btn-block" />
