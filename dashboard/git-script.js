@@ -4,11 +4,10 @@ const packageJson = require("./package.json");
 const gitVersion = "v" + packageJson.version;
 
 doExec = async (command) => {
-  console.log(command);
   await exec(command, (error, stdout, stderr) => {
+    console.log(command);
     if (error) {
       console.log(`error: ${error.message}`);
-      return;
     }
     if (stderr) {
       console.log(`stderr: ${stderr}`);
