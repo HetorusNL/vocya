@@ -33,7 +33,7 @@ class App extends Component {
     this.setState({ showAllWordsButton: true });
     const res = await axios.get(
       `https://api.vocya.hetorus.nl/search/word/${
-        searchWordOnly ? "romaji,dutch,hiragana,kanji" : "*"
+        searchWordOnly ? "dutch,nihongo,hiragana,romaji" : "*"
       }/${text}`
     );
     this.setState({ words: res.data, loading: false });
