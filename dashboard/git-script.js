@@ -12,7 +12,6 @@ doExec = (command) => {
     }
     if (stderr) {
       console.log(`stderr: ${stderr}`);
-      return;
     }
     stdout && console.log(`${stdout}`);
   });
