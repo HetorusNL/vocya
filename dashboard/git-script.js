@@ -17,7 +17,7 @@ doExec = (command) => {
   });
 };
 
-doExec(`git add .`);
+doExec(`git add ../.`);
 doExec(`git commit -m "${gitVersion}"`);
 doExec(`git tag -a ${gitVersion} -m "${gitVersion}"`);
 doExec(`git push --tags`);
