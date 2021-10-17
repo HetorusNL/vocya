@@ -3,9 +3,9 @@ const packageJson = require("./package.json");
 
 const gitVersion = "v" + packageJson.version;
 
-doExec = (command) => {
+doExec = async (command) => {
   console.log(command);
-  exec(command, (error, stdout, stderr) => {
+  await exec(command, (error, stdout, stderr) => {
     if (error) {
       console.log(`error: ${error.message}`);
       return;
@@ -17,8 +17,12 @@ doExec = (command) => {
   });
 };
 
-doExec(`git add ../.`);
-doExec(`git commit -m "${gitVersion}"`);
-doExec(`git tag -a ${gitVersion} -m "${gitVersion}"`);
-doExec(`git push --tags`);
-doExec(`git push`);
+doGitStuff = async () => {
+  await doExec(`git add ../.`);
+  await doExec(`git commit -m "${gitVersion}"`);
+  await doExec(`git tag -a ${gitVersion} -m "${gitVersion}"`);
+  await doExec(`git push --tags`);
+  await doExec(`git push`);
+};
+
+doGitStuff();
