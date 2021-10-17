@@ -14,10 +14,12 @@ const Search = ({
   const [searchWordOnly, setSearchWordOnly] = useState(true);
   const location = useLocation();
   let { course } = useParams();
+  let searchBox = null;
 
   useEffect(() => {
-    console.log("location changed, search for words");
+    console.log("location changed, search for words and focus searchBox");
     _searchWords();
+    searchBox.focus(); // focus the searchBox on a location change (and thus initial loading)
     // we don't want _searchWords in the dependency array, so ignore the warning
   }, [location]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -75,7 +77,9 @@ const Search = ({
           name="text"
           placeholder="Search words..."
           value={text}
+          ref={(input) => (searchBox = input)}
           onChange={(e) => setText(e.target.value)}
+          onKeyDown={(e) => e.code === "Escape" && setText("")}
         />
         {!liveSearch && (
           <input type="submit" value="Search" className="btn btn-block" />

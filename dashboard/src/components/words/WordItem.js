@@ -3,14 +3,15 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
 const WordItem = ({
-  word: { id, chapter, chapter_name, dutch, hiragana, romaji },
+  word: { id, chapter, chapter_name, dutch, nihongo, hiragana, romaji },
 }) => {
   return (
     <div className="card text-left">
       <Link to={`/word/id/${id}`} className="text-dark">
-        <p>{romaji}</p>
         <p>{dutch}</p>
+        <p>{nihongo}</p>
         <p>{hiragana}</p>
+        <p>{romaji}</p>
       </Link>
     </div>
   );
