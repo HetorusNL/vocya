@@ -18,6 +18,10 @@ export class Word extends Component {
     const { loading } = this.props;
 
     if (loading) return <Spinner />;
+    const singleItemStyle = {
+      margin: "auto",
+      width: "max-content",
+    };
     const wordStyle = {
       marginTop: "1rem",
       marginBottom: "1rem",
@@ -29,6 +33,26 @@ export class Word extends Component {
         <Link to="/" className="btn">
           Back to Search
         </Link>
+        {this.props.word.nihongo && (
+          <div className="card text-left" style={wordStyle}>
+            <p style={singleItemStyle}>
+              <b>Japanese</b>
+            </p>
+            <p style={{ ...singleItemStyle, fontSize: "5rem" }}>
+              {this.props.word.nihongo}
+            </p>
+          </div>
+        )}
+        {this.props.word.hiragana && (
+          <div className="card text-left" style={wordStyle}>
+            <p style={singleItemStyle}>
+              <b>Hiragana</b>
+            </p>
+            <p style={{ ...singleItemStyle, fontSize: "3rem" }}>
+              {this.props.word.hiragana}
+            </p>
+          </div>
+        )}
         <div className="card text-left" style={wordStyle}>
           <pre>{JSON.stringify(this.props.word, null, 2)}</pre>
         </div>
