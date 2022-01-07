@@ -7,9 +7,9 @@ class Handler(FileSystemEventHandler):
         super().__init__()
         self.vocabulary_db = vocabulary_db
 
-    def on_any_event(self, event):
+    def on_closed(self, event):
         self.vocabulary_db.update_vocabulary()
-        return super().on_any_event(event)
+        return super().on_closed(event)
 
 
 class DBWatcher:
