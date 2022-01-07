@@ -53,6 +53,16 @@ export class Word extends Component {
             </p>
           </div>
         )}
+        {this.props.word.dutch && (
+          <div className="card text-left" style={wordStyle}>
+            <p style={singleItemStyle}>
+              <b>Dutch</b>
+            </p>
+            <p style={{ ...singleItemStyle, fontSize: "1.5rem" }}>
+              {this.props.word.dutch}
+            </p>
+          </div>
+        )}
         <div className="card text-left" style={wordStyle}>
           <pre>{JSON.stringify(this.props.word, null, 2)}</pre>
         </div>
