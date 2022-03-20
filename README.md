@@ -12,14 +12,13 @@ The current API endpoint can be reached at: https://api.vocya.hetorus.nl/.
 
 Query all words  
 https://api.vocya.hetorus.nl/words  
-Query words with id='2'  
-https://api.vocya.hetorus.nl/word/id/2  
-Query words with chapter='1'  
-https://api.vocya.hetorus.nl/word/chapter/1  
-Query words with wildcard search query='ho' (matching any value in the returned JSON)  
-https://api.vocya.hetorus.nl/search/word/*/ho  
-Query words with search in romaji/dutch fields with query='ho'  
-https://api.vocya.hetorus.nl/search/word/romaji,dutch/ho
+Query words with id='jem1-2'  
+https://api.vocya.hetorus.nl/word/jem1-2  
+Query words with chapter='jem1-1'  
+https://api.vocya.hetorus.nl/chapter/jem1-1/words  
+Query words with course='jem1' chapter='jem1-1' and id='jem1-1'  
+https://api.vocya.hetorus.nl/course/jem1/chapter/jem1-1/word/jem1-1  
+Searching is no longer supported on the API side, searching within returned words for a course/chapter/all should be performed client-side.
 
 ## Dashboard
 
@@ -27,8 +26,8 @@ The front-end dashboard of vocya showing the results of the API calls to the voc
 By default 'live search' is enabled, and every keystroke sends a 'search' API call and shows the results.
 When 'live search' is disabled by clicking on the button, a manual search button is enabled to send the 'search' API call when clicked.
 When clicking on the results, a single result page is opened where the 'raw properties' are shown.
-'Search only in romaji/Dutch' is enabled by default.
-If this is enabled, only the 'romaji' and 'dutch' fields are searched instead of every field (including id, chapter, chapter_name, etc) by issuing a wildcard search.
+'Search only in dutch/hiragana/nihongo/romaji' is enabled by default.
+If this is enabled, only these specific fields (equivalent fields for courses and chapters) are searched instead of every field (including id, chapter, chapter_name, etc) by issuing a 'wildcard search'.
 The current dashboard is hosted at: https://vocya.hetorus.nl
 
 ## Scripts

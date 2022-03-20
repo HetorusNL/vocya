@@ -1,41 +1,40 @@
 import React, { useState, useEffect } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
-import Checkbox from "../utils/Checkbox";
+import Checkbox from "./Checkbox";
 
 const Search = ({
-  searchWords,
-  showAllWords,
-  showAllWordsButton,
+  itemName,
+  searchItems,
+  showAllItems,
+  showAllItemsArgs,
+  isSearching,
   setAlert,
 }) => {
   const [text, setText] = useState("");
   const [liveSearch, setLiveSearch] = useState(true);
   const [searchWordOnly, setSearchWordOnly] = useState(true);
   const location = useLocation();
-  let { course } = useParams();
   let searchBox = null;
 
   useEffect(() => {
-    console.log("location changed, search for words and focus searchBox");
-    _searchWords();
+    console.log("location changed, search for items and focus searchBox");
+    _searchItems();
     searchBox.focus(); // focus the searchBox on a location change (and thus initial loading)
-    // we don't want _searchWords in the dependency array, so ignore the warning
+    // we don't want _searchItems in the dependency array, so ignore the warning
   }, [location]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    console.log("checkboxes or text changed, search for words if liveSearch");
-    if (liveSearch) _searchWords();
-    // we don't want _searchWords in the dependency array, so ignore the warning
+    console.log("checkboxes or text changed, search for items if liveSearch");
+    if (liveSearch) _searchItems();
+    // we don't want _searchItems in the dependency array, so ignore the warning
   }, [searchWordOnly, liveSearch, text]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  let _searchWords = () => {
+  let _searchItems = () => {
     if (text === "") {
-      course ? showAllWords(course) : showAllWords();
+      showAllItems(showAllItemsArgs);
     } else {
-      course
-        ? searchWords(course, text, searchWordOnly)
-        : searchWords(text, searchWordOnly);
+      searchItems({ text: text, searchWordOnly: searchWordOnly });
     }
   };
 
@@ -44,11 +43,11 @@ const Search = ({
     if (text === "") {
       setAlert("Please enter something", "danger");
     } else {
-      _searchWords(text, searchWordOnly);
+      _searchItems();
     }
   };
 
-  const wordStyle = {
+  const itemStyle = {
     display: "grid",
     maxWidth: "1500px",
     gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
@@ -59,7 +58,7 @@ const Search = ({
 
   return (
     <div>
-      <div style={wordStyle}>
+      <div style={itemStyle}>
         <Checkbox
           text="Live search"
           update={(checked) => setLiveSearch(checked)}
@@ -75,7 +74,7 @@ const Search = ({
         <input
           type="text"
           name="text"
-          placeholder="Search words..."
+          placeholder={`Search ${itemName}...`}
           value={text}
           ref={(input) => (searchBox = input)}
           onChange={(e) => setText(e.target.value)}
@@ -85,15 +84,15 @@ const Search = ({
           <input type="submit" value="Search" className="btn btn-block" />
         )}
       </form>
-      {showAllWordsButton && (
+      {isSearching && (
         <button
           className="btn btn-block"
           onClick={() => {
-            showAllWords();
+            showAllItems();
             setText("");
           }}
         >
-          Show all words
+          Show all {itemName}
         </button>
       )}
     </div>
@@ -101,9 +100,9 @@ const Search = ({
 };
 
 Search.propTypes = {
-  searchWords: PropTypes.func.isRequired,
-  showAllWords: PropTypes.func.isRequired,
-  showAllWordsButton: PropTypes.bool.isRequired,
+  searchItems: PropTypes.func.isRequired,
+  showAllItems: PropTypes.func.isRequired,
+  isSearching: PropTypes.bool.isRequired,
   setAlert: PropTypes.func.isRequired,
 };
 

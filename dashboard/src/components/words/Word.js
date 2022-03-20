@@ -5,17 +5,17 @@ import { Link } from "react-router-dom";
 
 export class Word extends Component {
   componentDidMount() {
-    this.props.getWord(this.props.match.params.id);
+    this.props.getWord(this.props.match.params);
   }
 
   static propTypes = {
-    loading: PropTypes.bool,
-    word: PropTypes.object.isRequired,
     getWord: PropTypes.func.isRequired,
+    word: PropTypes.object.isRequired,
+    loading: PropTypes.bool,
   };
 
   render() {
-    const { loading } = this.props;
+    const { word, loading } = this.props;
 
     if (loading) return <Spinner />;
     const singleItemStyle = {
@@ -30,42 +30,52 @@ export class Word extends Component {
 
     return (
       <Fragment>
-        <Link to="/" className="btn">
+        <Link to="../words" className="btn">
           Back to Search
         </Link>
-        {this.props.word.nihongo && (
+        {word ? (
+          <Fragment>
+            {word.nihongo && (
+              <div className="card text-left" style={wordStyle}>
+                <p style={singleItemStyle}>
+                  <b>Japanese</b>
+                </p>
+                <p style={{ ...singleItemStyle, fontSize: "5rem" }}>
+                  {word.nihongo}
+                </p>
+              </div>
+            )}
+            {word.hiragana && (
+              <div className="card text-left" style={wordStyle}>
+                <p style={singleItemStyle}>
+                  <b>Hiragana</b>
+                </p>
+                <p style={{ ...singleItemStyle, fontSize: "3rem" }}>
+                  {word.hiragana}
+                </p>
+              </div>
+            )}
+            {word.dutch && (
+              <div className="card text-left" style={wordStyle}>
+                <p style={singleItemStyle}>
+                  <b>Dutch</b>
+                </p>
+                <p style={{ ...singleItemStyle, fontSize: "1.5rem" }}>
+                  {word.dutch}
+                </p>
+              </div>
+            )}
+            <div className="card text-left" style={wordStyle}>
+              <pre>{JSON.stringify(word, null, 2)}</pre>
+            </div>
+          </Fragment>
+        ) : (
           <div className="card text-left" style={wordStyle}>
             <p style={singleItemStyle}>
-              <b>Japanese</b>
-            </p>
-            <p style={{ ...singleItemStyle, fontSize: "5rem" }}>
-              {this.props.word.nihongo}
+              <b>Error word "{this.props.match.params.wo_id}" not found!</b>
             </p>
           </div>
         )}
-        {this.props.word.hiragana && (
-          <div className="card text-left" style={wordStyle}>
-            <p style={singleItemStyle}>
-              <b>Hiragana</b>
-            </p>
-            <p style={{ ...singleItemStyle, fontSize: "3rem" }}>
-              {this.props.word.hiragana}
-            </p>
-          </div>
-        )}
-        {this.props.word.dutch && (
-          <div className="card text-left" style={wordStyle}>
-            <p style={singleItemStyle}>
-              <b>Dutch</b>
-            </p>
-            <p style={{ ...singleItemStyle, fontSize: "1.5rem" }}>
-              {this.props.word.dutch}
-            </p>
-          </div>
-        )}
-        <div className="card text-left" style={wordStyle}>
-          <pre>{JSON.stringify(this.props.word, null, 2)}</pre>
-        </div>
       </Fragment>
     );
   }
