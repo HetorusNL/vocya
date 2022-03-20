@@ -27,9 +27,9 @@ const Navbar = ({ loading, title }) => {
         <Link to="/">Home</Link>
         <Link to="/courses">Courses</Link>
         <Link to="/chapters">Chapters</Link>
-        <Link to="/course/jem1">JEM1 words</Link>
-        <Link to="/course/jem-old-1">JEM1 (old) words</Link>
-        <Link to="/course/jem2">JEM2 words</Link>
+        <Link to="/course/jem1/words">JEM1 words</Link>
+        <Link to="/course/jem-old-1/words">JEM1 (old) words</Link>
+        <Link to="/course/jem2/words">JEM2 words</Link>
         <Link to="/table/hiragana">Hiragana table</Link>
         <Link to="/table/katakana">Katakana table</Link>
         <Link to="/about">About</Link>
