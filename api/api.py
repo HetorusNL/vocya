@@ -104,65 +104,6 @@ def word(wo_id):
     return jsonify(word)
 
 
-# deprecated: replaced by 'word(word_id)'!
-@api.route("/word/id/<string:wo_id>")
-def word_id(wo_id):
-    vocabulary = _vocabulary_db.get_vocabulary()
-    word = list(filter(lambda a: a["id"] == wo_id, vocabulary))
-    return jsonify(word)
-
-
-# deprecated!
-@api.route("/word/chapter/<string:id>")
-def word_chapter(id):
-    vocabulary = _vocabulary_db.get_vocabulary()
-    res = list(filter(lambda a: a["chapter"] == id, vocabulary))
-    return jsonify(res)
-
-
-# deprecated!
-@api.route("/word/course/<string:id>")
-def word_course(id):
-    vocabulary = _vocabulary_db.get_vocabulary()
-    res = list(filter(lambda a: a["course"] == id, vocabulary))
-    return jsonify(res)
-
-
-# deprecated: searching should be performed on client side!
-@api.route("/course/<string:id>/search/word/<string:fields>/<path:query>")
-def search_course_word(id, fields, query):
-    vocabulary = _vocabulary_db.get_vocabulary()
-    course_vocabulary = list(filter(lambda a: a["course"] == id, vocabulary))
-    return _search_words(course_vocabulary, fields, query)
-
-
-# deprecated: searching should be performed on client side!
-@api.route("/search/word/<string:fields>/<path:query>")
-def search_word(fields, query):
-    vocabulary = _vocabulary_db.get_vocabulary()
-    return _search_words(vocabulary, fields, query)
-
-
-# deprecated internal function: searching should be performed on client side!
-def _search_words(vocabulary, fields, query):
-    # distinguish between wildcard search (fields=*) and search in fields
-    wildcard_search = fields == "*"
-    fields = fields.split(",")
-
-    res = []
-    for entry in vocabulary:
-        querywords_found = 0
-        for queryword in query.split(" "):
-            for key in entry.keys() if wildcard_search else fields:
-                # search case-insensitive (and testing if key exists)
-                if key in entry and queryword.lower() in entry[key].lower():
-                    querywords_found += 1
-                    break
-        if querywords_found == len(query.split(" ")):
-            res.append(entry)
-    return jsonify(res)
-
-
 if __name__ == "__main__":
     database_file = "/opt/vocjem/dictionary.json"
 
