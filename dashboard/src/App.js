@@ -155,8 +155,8 @@ class App extends Component {
             let valueLowerSplit = value.toLowerCase().split(/[\s/]+/);
             return valueLowerSplit.some((splittedValue) => {
               return (
-                splittedValue.replace(/[()]/g, "") ===
-                splittedText.replace(/[()]/g, "")
+                splittedValue.replace(/[(),;.]/g, "") ===
+                splittedText.replace(/[(),;.]/g, "")
               );
             });
           } else {
