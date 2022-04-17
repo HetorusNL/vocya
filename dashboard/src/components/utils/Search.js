@@ -14,6 +14,7 @@ const Search = ({
   const [text, setText] = useState("");
   const [liveSearch, setLiveSearch] = useState(true);
   const [searchWordOnly, setSearchWordOnly] = useState(true);
+  const [exactMatch, setExactMatch] = useState(false);
   const location = useLocation();
   let searchBox = null;
 
@@ -28,13 +29,17 @@ const Search = ({
     console.log("checkboxes or text changed, search for items if liveSearch");
     if (liveSearch) _searchItems();
     // we don't want _searchItems in the dependency array, so ignore the warning
-  }, [searchWordOnly, liveSearch, text]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [text, liveSearch, searchWordOnly, exactMatch]); // eslint-disable-line react-hooks/exhaustive-deps
 
   let _searchItems = () => {
     if (text === "") {
       showAllItems(showAllItemsArgs);
     } else {
-      searchItems({ text: text, searchWordOnly: searchWordOnly });
+      searchItems({
+        text: text,
+        searchWordOnly: searchWordOnly,
+        exactMatch: exactMatch,
+      });
     }
   };
 
@@ -68,6 +73,11 @@ const Search = ({
           text="Search in words only"
           update={(checked) => setSearchWordOnly(checked)}
           defaultValue={true}
+        />
+        <Checkbox
+          text="Exact match"
+          update={(checked) => setExactMatch(checked)}
+          defaultValue={false}
         />
       </div>
       <form onSubmit={onSubmit} className="form">

@@ -137,16 +137,31 @@ class App extends Component {
     this.setState({ word: res.data[0], loading: false });
   };
 
-  performSearch = async (text, searchWordOnly, searchWordOnlyKeys, items) => {
+  performSearch = async (
+    text,
+    searchWordOnly,
+    searchWordOnlyKeys,
+    exactMatch,
+    items
+  ) => {
     this.setState({ loading: true, isSearching: true });
     var filteredItems = [];
-    let textLowerSplit = text.toLowerCase().split(" ");
+    let textLowerSplit = text.toLowerCase().split(/[\s/]+/);
     items.forEach((item) => {
       let res = textLowerSplit.every((splittedText) => {
         return Object.entries(item).some(([key, value]) => {
           if (searchWordOnly && !searchWordOnlyKeys.includes(key)) return false;
-          let test = value.toLowerCase().includes(splittedText);
-          return test;
+          if (exactMatch) {
+            let valueLowerSplit = value.toLowerCase().split(/[\s/]+/);
+            return valueLowerSplit.some((splittedValue) => {
+              return (
+                splittedValue.replace(/[()]/g, "") ===
+                splittedText.replace(/[()]/g, "")
+              );
+            });
+          } else {
+            return value.toLowerCase().includes(splittedText);
+          }
         });
       });
       res && filteredItems.push(item);
@@ -155,26 +170,44 @@ class App extends Component {
   };
 
   // perform the course search locally instead of via the API
-  searchCourse = async ({ text, searchWordOnly }) => {
-    let keys = ["abbreviation", "name"];
+  searchCourse = async ({ text, searchWordOnly, exactMatch }) => {
+    let searchWordOnlyKeys = ["abbreviation", "name"];
     let items = this.state.courses;
-    let filtered = await this.performSearch(text, searchWordOnly, keys, items);
+    let filtered = await this.performSearch(
+      text,
+      searchWordOnly,
+      searchWordOnlyKeys,
+      exactMatch,
+      items
+    );
     this.setState({ filteredCourses: filtered, loading: false });
   };
 
   // perform the course search locally instead of via the API
-  searchChapter = async ({ text, searchWordOnly }) => {
-    let keys = ["id", "name"];
+  searchChapter = async ({ text, searchWordOnly, exactMatch }) => {
+    let searchWordOnlyKeys = ["id", "name"];
     let items = this.state.chapters;
-    let filtered = await this.performSearch(text, searchWordOnly, keys, items);
+    let filtered = await this.performSearch(
+      text,
+      searchWordOnly,
+      searchWordOnlyKeys,
+      exactMatch,
+      items
+    );
     this.setState({ filteredChapters: filtered, loading: false });
   };
 
   // perform the word search locally instead of via the API
-  searchWord = async ({ text, searchWordOnly }) => {
-    let keys = ["dutch", "hiragana", "nihongo", "romaji"];
+  searchWord = async ({ text, searchWordOnly, exactMatch }) => {
+    let searchWordOnlyKeys = ["dutch", "hiragana", "nihongo", "romaji"];
     let items = this.state.words;
-    let filtered = await this.performSearch(text, searchWordOnly, keys, items);
+    let filtered = await this.performSearch(
+      text,
+      searchWordOnly,
+      searchWordOnlyKeys,
+      exactMatch,
+      items
+    );
     this.setState({ filteredWords: filtered, loading: false });
   };
 

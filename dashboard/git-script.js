@@ -19,9 +19,9 @@ doExec = async (command) => {
 doGitStuff = async () => {
   await doExec(`git add ../.`);
   await doExec(`git commit -m "${gitVersion}"`);
+  await doExec(`git push`);
   await doExec(`git tag -a ${gitVersion} -m "${gitVersion}"`);
   await doExec(`git push --tags`);
-  await doExec(`git push`);
 };
 
 doGitStuff();
