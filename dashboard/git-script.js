@@ -1,27 +1,19 @@
-const { exec } = require("child_process");
+const { execSync } = require("child_process");
 const packageJson = require("./package.json");
 
 const gitVersion = "v" + packageJson.version;
 
-doExec = async (command) => {
-  await exec(command, (error, stdout, stderr) => {
-    console.log(command);
-    if (error) {
-      console.log(`error: ${error.message}`);
-    }
-    if (stderr) {
-      console.log(`stderr: ${stderr}`);
-    }
-    stdout && console.log(`${stdout}`);
-  });
+doExec = (command) => {
+  result = execSync(command);
+  console.log(result);
 };
 
-doGitStuff = async () => {
-  await doExec(`git add ../.`);
-  await doExec(`git commit -m "${gitVersion}"`);
-  await doExec(`git push`);
-  await doExec(`git tag -a ${gitVersion} -m "${gitVersion}"`);
-  await doExec(`git push --tags`);
+doGitStuff = () => {
+  doExec(`git add ../.`);
+  doExec(`git commit -m "${gitVersion}"`);
+  doExec(`git tag -a ${gitVersion} -m "${gitVersion}"`);
+  doExec(`git push --tags`);
+  doExec(`git push`);
 };
 
 doGitStuff();
