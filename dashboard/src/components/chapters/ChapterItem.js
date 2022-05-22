@@ -16,7 +16,7 @@ const ChapterItem = ({ chapter: { id, name } }) => {
         </p>
         <p style={{ flex: "1 1 auto" }}></p>
         <p>
-          <Link to={`/chapter/${id}/words`} className="btn">
+          <Link to={`chapter/${id}/words`} className="btn">
             Words
           </Link>
         </p>
