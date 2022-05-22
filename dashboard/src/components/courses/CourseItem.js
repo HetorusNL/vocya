@@ -5,9 +5,24 @@ import { Link } from "react-router-dom";
 const CourseItem = ({ course: { id, abbreviation, name } }) => {
   return (
     <div className="card text-left">
-      <Link to={`/course/${id}`} className="text-dark">
-        <p>{abbreviation}</p>
-        <p>{name}</p>
+      <Link
+        to={`/course/${id}`}
+        className="text-dark"
+        style={{ display: "flex", flexFlow: "column", height: "100%" }}
+      >
+        <p style={{ flex: "0 1 auto", marginBottom: "1rem" }}>
+          <p>{abbreviation}</p>
+          <p>{name}</p>
+        </p>
+        <p style={{ flex: "1 1 auto" }}></p>
+        <p>
+          <Link to={`/course/${id}/chapters`} className="btn">
+            Chapters
+          </Link>
+          <Link to={`/course/${id}/words`} className="btn">
+            Words
+          </Link>
+        </p>
       </Link>
     </div>
   );
