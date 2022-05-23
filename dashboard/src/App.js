@@ -346,6 +346,9 @@ class App extends Component {
               render={(props) => (
                 <div className="container">
                   <Fragment>
+                    <Link to={`../../courses`} className="btn">
+                      Back to Courses
+                    </Link>
                     <Link to={`../${props.match.params.co_id}`} className="btn">
                       Back to Course
                     </Link>
@@ -385,6 +388,9 @@ class App extends Component {
               render={(props) => (
                 <div className="container">
                   <Fragment>
+                    <Link to={`../../chapters`} className="btn">
+                      Back to Chapters
+                    </Link>
                     <Link to={`../${props.match.params.ch_id}`} className="btn">
                       Back to Chapter
                     </Link>
@@ -427,6 +433,9 @@ class App extends Component {
               render={(props) => (
                 <div className="container">
                   <Fragment>
+                    <Link to={`../../courses`} className="btn">
+                      Back to Courses
+                    </Link>
                     <Link to={`../${props.match.params.co_id}`} className="btn">
                       Back to Course
                     </Link>
@@ -503,6 +512,9 @@ class App extends Component {
               render={(props) => (
                 <div className="container">
                   <Fragment>
+                    <Link to={`../../chapters`} className="btn">
+                      Back to Chapters
+                    </Link>
                     <Link to={`../${props.match.params.ch_id}`} className="btn">
                       Back to Chapter
                     </Link>
