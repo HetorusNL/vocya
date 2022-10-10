@@ -31,6 +31,7 @@ const Navbar = ({ loading, title }) => {
         <Link to="/course/jem-old-1/words">JEM1 (old) words</Link>
         <Link to="/course/jem2/words">JEM2 words</Link>
         <Link to="/course/jem3/words">JEM3 words</Link>
+        <Link to="/course/jem4/words">JEM4 words</Link>
         <Link to="/table/hiragana">Hiragana table</Link>
         <Link to="/table/katakana">Katakana table</Link>
         <Link to="/about">About</Link>
