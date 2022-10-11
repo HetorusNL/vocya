@@ -8,7 +8,7 @@ const Words = ({ words, loading }) => {
   const [shownWords, setShownWords] = useState([]);
   const [maxElements, setMaxElements] = useState(0);
   const wordsPerPage = 50;
-  const pixelsFromBottom = 100;
+  const pixelsFromBottom = 500;
   const wordStyle = {
     display: "grid",
     maxWidth: "1500px",
@@ -33,9 +33,8 @@ const Words = ({ words, loading }) => {
   useEffect(() => {
     const handleScroll = (e) => {
       const scrollTop = e.target.scrollingElement.scrollTop;
-      const scrollHeight = e.target.scrollingElement.scrollHeight;
-      const clientHeight = e.target.scrollingElement.clientHeight;
-      if (scrollTop + pixelsFromBottom >= scrollHeight - clientHeight) {
+      const scrollTopMax = e.target.scrollingElement.scrollTopMax;
+      if (scrollTop + pixelsFromBottom >= scrollTopMax) {
         if (maxElements < allWords.length) {
           setMaxElements(maxElements + wordsPerPage);
         }
