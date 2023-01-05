@@ -1,12 +1,11 @@
 import json
-from typing import List
 
 
 class VocabularyDB:
     def __init__(self, database_file: str):
-        self.courses: List[dict[str, str]] = []
-        self.chapters: List[dict[str, str]] = []
-        self.vocabulary: List[dict[str, str]] = []
+        self.courses: list[dict[str, str]] = []
+        self.chapters: list[dict[str, str]] = []
+        self.vocabulary: list[dict[str, str]] = []
         self.database_file = database_file
 
     def get_courses(self):
@@ -23,10 +22,10 @@ class VocabularyDB:
         self.chapters = self._resolve_type("chapters")
         self.vocabulary = self._resolve_type("vocabulary")
 
-    def _resolve_type(self, type_name) -> "List[dict[str, str]]":
+    def _resolve_type(self, type_name) -> "list[dict[str, str]]":
         with open(self.database_file) as f:
             dictionary: dict = json.load(f)
-        entries: List[dict[str, str]] = dictionary[type_name]
+        entries: list[dict[str, str]] = dictionary[type_name]
         lut: dict = dictionary["lut"]
         lut_keys = lut.keys()
         # resolve the LUT it might be better to do this after (optional)

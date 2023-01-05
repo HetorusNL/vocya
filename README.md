@@ -8,6 +8,27 @@ The API uses python3 and flask to host the API server.
 The API returns a (potentially empty) list of results in JSON format.
 The current API endpoint can be reached at: https://api.vocya.hetorus.nl/.
 
+### Running the API
+
+Install poetry: https://python-poetry.org/docs/
+
+Ensure poetry works by running:  
+`poetry --version`  
+Otherwise ensure that the location poetry is installed in, is added to the path.
+
+Configure poetry to create the virtualenvs in the project folder:  
+`poetry config virtualenvs.in-project true`
+
+Install the required dependencies:  
+`cd api`  
+`poetry install`
+
+Modify the path to the VocJEM database file in `database_file` in `api.py`, if that repository is stored in a different location.
+
+Run the API  
+`cd api`  
+`poetry run python3 api.py`
+
 ### Example queries
 
 Query all words  
