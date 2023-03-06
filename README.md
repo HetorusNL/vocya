@@ -51,6 +51,29 @@ When clicking on the results, a single result page is opened where the 'raw prop
 If this is enabled, only these specific fields (equivalent fields for courses and chapters) are searched instead of every field (including id, chapter, chapter_name, etc) by issuing a 'wildcard search'.
 The current dashboard is hosted at: https://vocya.hetorus.nl
 
+### Configuring yarn
+
+```bash
+# if any of the below commands fail on permission errors, prefix them with sudo
+
+# remove yarn is previously present on the system
+sudo apt remove yarn
+
+# make sure that node.js >= 16.10 is installed
+
+# enable corepack
+corepack enable
+
+# updating the global yarn version
+corepack prepare yarn@stable --activate
+
+# initialize yarn
+yarn init -2
+
+# update to the latest version
+yarn set version stable
+```
+
 ## Scripts
 
 ### Run the development server
