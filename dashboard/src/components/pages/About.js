@@ -16,7 +16,7 @@ const About = () => {
     <Fragment>
       <h1>About this website</h1>
       <p>
-        The vocabulair of the Kotatsu Japanese E-Mastery courses is available
+        The vocabulary of the Kotatsu Japanese E-Mastery courses is available
         using this site. It's possible to find the words of a specific course,
         chapter or by searching all words. Also the hiragana and katakana tables
         are available. このウエブサイトの言葉を勉強します (studying the words on
