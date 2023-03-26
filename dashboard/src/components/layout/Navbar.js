@@ -1,17 +1,21 @@
-import React from "react";
+import React, { useContext } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
+
+import VocyaApiContext from "../../context/vocya_api/VocyaApiContext";
 import { ReactComponent as Transceive } from "./transceive.svg";
 import { ReactComponent as Idle } from "./idle.svg";
 
-const Navbar = ({ loading, title }) => {
+const Navbar = ({ title }) => {
+  const vocyaApiContext = useContext(VocyaApiContext);
+
   return (
     <nav className="navbar bg-primary">
       <div style={{ display: "flex" }}>
         <Link to="/">
           <h1>{title}</h1>
         </Link>
-        {loading ? (
+        {vocyaApiContext.loading ? (
           <Transceive
             fill="limegreen"
             style={{ width: "40px", height: "40px", marginTop: "5px" }}

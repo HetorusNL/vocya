@@ -5,7 +5,7 @@ export default class CacheBuster extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      loading: true,
+      cacheBusterLoading: true,
       isLatestVersion: false,
       currentVersion: "0",
       latestVersion: "0",
@@ -46,7 +46,6 @@ export default class CacheBuster extends Component {
       .then((meta) => {
         const latestVersion = meta.version;
         const currentVersion = packageJson.version;
-        console.log(meta, packageJson);
 
         const shouldForceRefresh = this.semverGreaterThan(
           latestVersion,
@@ -57,7 +56,7 @@ export default class CacheBuster extends Component {
             `new version: ${latestVersion} available, should force refresh`
           );
           this.setState({
-            loading: false,
+            cacheBusterLoading: false,
             isLatestVersion: false,
             latestVersion: latestVersion,
             currentVersion: currentVersion,
@@ -66,21 +65,21 @@ export default class CacheBuster extends Component {
           console.log(
             `running latest version: ${latestVersion}, no refresh needed`
           );
-          this.setState({ loading: false, isLatestVersion: true });
+          this.setState({ cacheBusterLoading: false, isLatestVersion: true });
         }
       });
   }
 
   render() {
     const {
-      loading,
+      cacheBusterLoading,
       isLatestVersion,
       currentVersion,
       latestVersion,
       refreshCacheAndReload,
     } = this.state;
     return this.props.children({
-      loading,
+      cacheBusterLoading,
       isLatestVersion,
       currentVersion,
       latestVersion,

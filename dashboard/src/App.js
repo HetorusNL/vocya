@@ -21,7 +21,6 @@ const App = () => {
   const [filteredCourses, setFilteredCourses] = useState([]);
   const [filteredChapters, setFilteredChapters] = useState([]);
   const [filteredWords, setFilteredWords] = useState([]);
-  const [loading, setLoading] = useState(false);
   const [alert, setAlert] = useState(null);
 
   const performSearch = async (
@@ -31,7 +30,7 @@ const App = () => {
     exactMatch,
     items
   ) => {
-    setLoading(true);
+    vocyaApiContext.setLoading(true);
     vocyaApiContext.setIsSearching(true);
     var filteredItems = [];
     let textLowerSplit = text.toLowerCase().split(/[\s/]+/);
@@ -70,7 +69,7 @@ const App = () => {
     );
     vocyaApiContext.setIsSearching(true);
     setFilteredCourses(filtered);
-    setLoading(false);
+    vocyaApiContext.setLoading(false);
   };
 
   // perform the chapter search locally instead of via the API
@@ -86,7 +85,7 @@ const App = () => {
     );
     vocyaApiContext.setIsSearching(true);
     setFilteredChapters(filtered);
-    setLoading(false);
+    vocyaApiContext.setLoading(false);
   };
 
   // perform the word search locally instead of via the API
@@ -102,7 +101,7 @@ const App = () => {
     );
     vocyaApiContext.setIsSearching(true);
     setFilteredWords(filtered);
-    setLoading(false);
+    vocyaApiContext.setLoading(false);
   };
 
   const [timeoutId, setTimeoutId] = useState(null);
@@ -132,16 +131,16 @@ const App = () => {
           flexDirection: "column",
         }}
       >
-        <Navbar loading={loading} />
+        <Navbar />
         <CacheBuster>
           {({
-            loading,
+            cacheBusterLoading,
             isLatestVersion,
             currentVersion,
             latestVersion,
             refreshCacheAndReload,
           }) => {
-            if (!loading && !isLatestVersion) {
+            if (!cacheBusterLoading && !isLatestVersion) {
               return (
                 <div
                   style={{
@@ -179,7 +178,6 @@ const App = () => {
                     setAlert={showAlert}
                   />
                   <Words
-                    loading={loading}
                     words={
                       vocyaApiContext.isSearching
                         ? filteredWords
@@ -203,7 +201,6 @@ const App = () => {
                     setAlert={showAlert}
                   />
                   <Courses
-                    loading={loading}
                     courses={
                       vocyaApiContext.isSearching
                         ? filteredCourses
@@ -235,7 +232,6 @@ const App = () => {
                     setAlert={showAlert}
                   />
                   <Chapters
-                    loading={loading}
                     chapters={
                       vocyaApiContext.isSearching
                         ? filteredChapters
@@ -274,7 +270,6 @@ const App = () => {
                     setAlert={showAlert}
                   />
                   <Words
-                    loading={loading}
                     words={
                       vocyaApiContext.isSearching
                         ? filteredWords
@@ -312,7 +307,6 @@ const App = () => {
                     setAlert={showAlert}
                   />
                   <Words
-                    loading={loading}
                     words={
                       vocyaApiContext.isSearching
                         ? filteredWords
@@ -337,7 +331,6 @@ const App = () => {
                     setAlert={showAlert}
                   />
                   <Chapters
-                    loading={loading}
                     chapters={
                       vocyaApiContext.isSearching
                         ? filteredChapters
@@ -369,7 +362,6 @@ const App = () => {
                     setAlert={showAlert}
                   />
                   <Words
-                    loading={loading}
                     words={
                       vocyaApiContext.isSearching
                         ? filteredWords

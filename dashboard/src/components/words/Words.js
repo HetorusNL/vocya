@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 import WordItem from "./WordItem";
 
-const Words = ({ words, loading }) => {
+const Words = ({ words }) => {
   const [allWords, setAllWords] = useState([]);
   const [shownWords, setShownWords] = useState([]);
   const [maxElements, setMaxElements] = useState(0);
@@ -63,7 +63,6 @@ const Words = ({ words, loading }) => {
 
 Words.propTypes = {
   words: PropTypes.array.isRequired,
-  loading: PropTypes.bool.isRequired,
 };
 
 export default Words;

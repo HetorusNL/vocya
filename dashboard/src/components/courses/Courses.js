@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 import CourseItem from "./CourseItem";
 
-const Courses = ({ courses, loading }) => {
+const Courses = ({ courses }) => {
   const courseStyle = {
     display: "grid",
     maxWidth: "1500px",
@@ -24,7 +24,6 @@ const Courses = ({ courses, loading }) => {
 
 Courses.propTypes = {
   courses: PropTypes.array.isRequired,
-  loading: PropTypes.bool.isRequired,
 };
 
 export default Courses;

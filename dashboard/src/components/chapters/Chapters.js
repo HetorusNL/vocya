@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 import ChapterItem from "./ChapterItem";
 
-const Chapters = ({ chapters, loading }) => {
+const Chapters = ({ chapters }) => {
   const chapterStyle = {
     display: "grid",
     maxWidth: "1500px",
@@ -24,7 +24,6 @@ const Chapters = ({ chapters, loading }) => {
 
 Chapters.propTypes = {
   chapters: PropTypes.array.isRequired,
-  loading: PropTypes.bool.isRequired,
 };
 
 export default Chapters;
