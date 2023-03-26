@@ -10,7 +10,6 @@ const Checkbox = ({ text, defaultValue, update }) => {
     <div
       className="btn btn-block chk"
       onClick={() => {
-        console.log("clicked!", !isChecked);
         if (update) update(!isChecked);
         setChecked(!isChecked);
       }}

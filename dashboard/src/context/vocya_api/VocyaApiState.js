@@ -61,7 +61,6 @@ const VocyaApiState = (props) => {
   const getCourse = async ({ co_id }) => {
     setupPageForNewContent();
     const res = await apiCourse(co_id);
-    console.log(res);
     dispatch({ type: GET_COURSE, payload: res.data[0] });
   };
 
