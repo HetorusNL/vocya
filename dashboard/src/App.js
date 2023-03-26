@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import "./App.css";
 
@@ -30,121 +30,134 @@ import {
   apiWord,
 } from "./components/utils/VocyaAPI";
 
-class App extends Component {
-  state = {
-    courses: [],
-    filteredCourses: [],
-    course: {},
-    chapters: [],
-    filteredChapters: [],
-    chapter: {},
-    words: [],
-    filteredWords: [],
-    word: {},
-    loading: false,
-    alert: null,
-    isSearching: false,
-  };
+const App = () => {
+  const [courses, setCourses] = useState([]);
+  const [filteredCourses, setFilteredCourses] = useState([]);
+  const [course, setCourse] = useState({});
+  const [chapters, setChapters] = useState([]);
+  const [filteredChapters, setFilteredChapters] = useState([]);
+  const [chapter, setChapter] = useState({});
+  const [words, setWords] = useState([]);
+  const [filteredWords, setFilteredWords] = useState([]);
+  const [word, setWord] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [alert, setAlert] = useState(null);
+  const [isSearching, setIsSearching] = useState(false);
 
-  courses = async () => {
-    this.setState({ loading: true });
-    this.setState({ isSearching: false });
+  const getCourses = async () => {
+    setLoading(true);
+    setIsSearching(false);
     const res = await apiCourses();
-    this.setState({ courses: res.data, loading: false });
+    setCourses(res.data);
+    setLoading(false);
   };
 
-  course = async ({ co_id }) => {
-    this.setState({ loading: true });
+  const getCourse = async ({ co_id }) => {
+    setLoading(true);
     const res = await apiCourse(co_id);
-    this.setState({ course: res.data[0], loading: false });
+    setCourse(res.data[0]);
+    setLoading(false);
   };
 
-  courseChapters = async ({ co_id }) => {
-    this.setState({ loading: true });
-    this.setState({ isSearching: false });
+  const getCourseChapters = async ({ co_id }) => {
+    setLoading(true);
+    setIsSearching(false);
     const res = await apiCourseChapters(co_id);
-    this.setState({ chapters: res.data, loading: false });
+    setChapters(res.data);
+    setLoading(false);
   };
 
-  courseChapter = async ({ co_id, ch_id }) => {
-    this.setState({ loading: true });
+  const getCourseChapter = async ({ co_id, ch_id }) => {
+    setLoading(true);
     const res = await apiCourseChapter(co_id, ch_id);
-    this.setState({ chapter: res.data[0], loading: false });
+    setChapter(res.data[0]);
+    setLoading(false);
   };
 
-  courseChapterWords = async ({ co_id, ch_id }) => {
-    this.setState({ loading: true });
-    this.setState({ isSearching: false });
+  const getCourseChapterWords = async ({ co_id, ch_id }) => {
+    setLoading(true);
+    setIsSearching(false);
     const res = await apiCourseChapterWords(co_id, ch_id);
-    this.setState({ words: res.data, loading: false });
+    setWords(res.data);
+    setLoading(false);
   };
 
-  courseChapterWord = async ({ co_id, ch_id, wo_id }) => {
-    this.setState({ loading: true });
+  const getCourseChapterWord = async ({ co_id, ch_id, wo_id }) => {
+    setLoading(true);
     const res = await apiCourseChapterWord(co_id, ch_id, wo_id);
-    this.setState({ word: res.data[0], loading: false });
+    setWord(res.data[0]);
+    setLoading(false);
   };
 
-  courseWords = async ({ co_id }) => {
-    this.setState({ loading: true });
-    this.setState({ isSearching: false });
+  const getCourseWords = async ({ co_id }) => {
+    setLoading(true);
+    setIsSearching(false);
     const res = await apiCourseWords(co_id);
-    this.setState({ words: res.data, loading: false });
+    setWords(res.data);
+    setLoading(false);
   };
 
-  courseWord = async ({ co_id, wo_id }) => {
-    this.setState({ loading: true });
+  const getCourseWord = async ({ co_id, wo_id }) => {
+    setLoading(true);
     const res = await apiCourseWord(co_id, wo_id);
-    this.setState({ word: res.data[0], loading: false });
+    setWord(res.data[0]);
+    setLoading(false);
   };
 
-  chapters = async () => {
-    this.setState({ loading: true });
-    this.setState({ isSearching: false });
+  const getChapters = async () => {
+    setLoading(true);
+    setIsSearching(false);
     const res = await apiChapters();
-    this.setState({ chapters: res.data, loading: false });
+    setChapters(res.data);
+    setLoading(false);
   };
 
-  chapter = async ({ ch_id }) => {
-    this.setState({ loading: true });
+  const getChapter = async ({ ch_id }) => {
+    setLoading(true);
     const res = await apiChapter(ch_id);
-    this.setState({ chapter: res.data[0], loading: false });
+    setChapter(res.data[0]);
+    setLoading(false);
   };
 
-  chapterWords = async ({ ch_id }) => {
-    this.setState({ loading: true });
-    this.setState({ isSearching: false });
+  const getChapterWords = async ({ ch_id }) => {
+    setLoading(true);
+    setIsSearching(false);
     const res = await apiChapterWords(ch_id);
-    this.setState({ words: res.data, loading: false });
+    setWords(res.data);
+    setLoading(false);
   };
 
-  chapterWord = async ({ ch_id, wo_id }) => {
-    this.setState({ loading: true });
+  const getChapterWord = async ({ ch_id, wo_id }) => {
+    setLoading(true);
     const res = await apiChapterWord(ch_id, wo_id);
-    this.setState({ word: res.data[0], loading: false });
+    setWord(res.data[0]);
+    setLoading(false);
   };
 
-  words = async () => {
-    this.setState({ loading: true });
-    this.setState({ isSearching: false });
+  const getWords = async () => {
+    setLoading(true);
+    setIsSearching(false);
     const res = await apiWords();
-    this.setState({ words: res.data, loading: false });
+    setWords(res.data);
+    setLoading(false);
   };
 
-  word = async ({ wo_id }) => {
-    this.setState({ loading: true });
+  const getWord = async ({ wo_id }) => {
+    setLoading(true);
     const res = await apiWord(wo_id);
-    this.setState({ word: res.data[0], loading: false });
+    setWord(res.data[0]);
+    setLoading(false);
   };
 
-  performSearch = async (
+  const performSearch = async (
     text,
     searchWordOnly,
     searchWordOnlyKeys,
     exactMatch,
     items
   ) => {
-    this.setState({ loading: true, isSearching: true });
+    setLoading(true);
+    setIsSearching(true);
     var filteredItems = [];
     let textLowerSplit = text.toLowerCase().split(/[\s/]+/);
     items.forEach((item) => {
@@ -170,434 +183,424 @@ class App extends Component {
   };
 
   // perform the course search locally instead of via the API
-  searchCourse = async ({ text, searchWordOnly, exactMatch }) => {
+  const searchCourse = async ({ text, searchWordOnly, exactMatch }) => {
     let searchWordOnlyKeys = ["abbreviation", "name"];
-    let items = this.state.courses;
-    let filtered = await this.performSearch(
+    let items = courses;
+    let filtered = await performSearch(
       text,
       searchWordOnly,
       searchWordOnlyKeys,
       exactMatch,
       items
     );
-    this.setState({ filteredCourses: filtered, loading: false });
+    setFilteredCourses(filtered);
+    setLoading(false);
   };
 
   // perform the course search locally instead of via the API
-  searchChapter = async ({ text, searchWordOnly, exactMatch }) => {
+  const searchChapter = async ({ text, searchWordOnly, exactMatch }) => {
     let searchWordOnlyKeys = ["id", "name"];
-    let items = this.state.chapters;
-    let filtered = await this.performSearch(
+    let items = chapters;
+    let filtered = await performSearch(
       text,
       searchWordOnly,
       searchWordOnlyKeys,
       exactMatch,
       items
     );
-    this.setState({ filteredChapters: filtered, loading: false });
+    setFilteredChapters(filtered);
+    setLoading(false);
   };
 
   // perform the word search locally instead of via the API
-  searchWord = async ({ text, searchWordOnly, exactMatch }) => {
+  const searchWord = async ({ text, searchWordOnly, exactMatch }) => {
     let searchWordOnlyKeys = ["dutch", "hiragana", "nihongo", "romaji"];
-    let items = this.state.words;
-    let filtered = await this.performSearch(
+    let items = words;
+    let filtered = await performSearch(
       text,
       searchWordOnly,
       searchWordOnlyKeys,
       exactMatch,
       items
     );
-    this.setState({ filteredWords: filtered, loading: false });
+    setFilteredWords(filtered);
+    setLoading(false);
   };
 
+  const [timeoutId, setTimeoutId] = useState(null);
   // show an alert
-  setAlert = (msg, type) => {
+  const showAlert = (msg, type) => {
     // store the msg and type information in alert object in state
-    this.setState({ alert: { msg, type } });
+    setAlert({ msg, type });
     // if the timeout was already set, unset the timeout to reset it to the full period
-    if (this.timeoutID !== null) {
-      clearTimeout(this.timeoutID);
+    if (timeoutId !== null) {
+      clearTimeout(timeoutId);
     }
     // set the timeout and store the timeout ID
-    this.timeoutID = setTimeout(() => {
-      this.setState({ alert: null });
-    }, 5000);
+    setTimeoutId(
+      setTimeout(() => {
+        setAlert(null);
+      }, 5000)
+    );
   };
 
-  render() {
-    const {
-      courses,
-      filteredCourses,
-      course,
-      chapters,
-      filteredChapters,
-      chapter,
-      words,
-      filteredWords,
-      word,
-      loading,
-      isSearching,
-    } = this.state;
-
-    return (
-      <Router>
-        <div
-          className="App"
-          style={{
-            height: "100vh",
-            display: "flex",
-            flexDirection: "column",
+  return (
+    <Router>
+      <div
+        className="App"
+        style={{
+          height: "100vh",
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
+        <Navbar loading={loading} />
+        <CacheBuster>
+          {({
+            loading,
+            isLatestVersion,
+            currentVersion,
+            latestVersion,
+            refreshCacheAndReload,
+          }) => {
+            if (!loading && !isLatestVersion) {
+              return (
+                <div
+                  style={{
+                    color: "var(--danger-color)",
+                    marginLeft: "auto",
+                    marginRight: "auto",
+                    padding: "1em",
+                  }}
+                  onClick={refreshCacheAndReload}
+                >
+                  There is a new version of the vocya dashboard available!
+                  <br />
+                  You are using {currentVersion} and {latestVersion} is
+                  available.
+                  <br /> Click on this message to reload the window. <br />
+                  If this doesn't work try pressing Ctrl+F5 to force refresh
+                </div>
+              );
+            }
+            return null;
           }}
-        >
-          <Navbar loading={loading} />
-          <CacheBuster>
-            {({
-              loading,
-              isLatestVersion,
-              currentVersion,
-              latestVersion,
-              refreshCacheAndReload,
-            }) => {
-              if (!loading && !isLatestVersion) {
-                return (
-                  <div
-                    style={{
-                      color: "var(--danger-color)",
-                      marginLeft: "auto",
-                      marginRight: "auto",
-                      padding: "1em",
+        </CacheBuster>
+        <Alert alert={alert} />
+        <Switch>
+          <Route
+            exact
+            path={["/", "/words"]}
+            render={(props) => (
+              <div className="container">
+                <Fragment>
+                  <Search
+                    itemName="words"
+                    searchItems={searchWord}
+                    showAllItems={getWords}
+                    isSearching={isSearching}
+                    setAlert={showAlert}
+                  />
+                  <Words
+                    loading={loading}
+                    words={isSearching ? filteredWords : words}
+                  />
+                </Fragment>
+              </div>
+            )}
+          />
+          <Route
+            exact
+            path="/courses"
+            render={(props) => (
+              <div className="container">
+                <Fragment>
+                  <Search
+                    itemName="courses"
+                    searchItems={searchCourse}
+                    showAllItems={getCourses}
+                    isSearching={isSearching}
+                    setAlert={showAlert}
+                  />
+                  <Courses
+                    loading={loading}
+                    courses={isSearching ? filteredCourses : courses}
+                  />
+                </Fragment>
+              </div>
+            )}
+          />
+          <Route
+            exact
+            path="/course/:co_id"
+            render={(props) => (
+              <div className="container">
+                <Course
+                  {...props}
+                  getCourse={getCourse}
+                  course={course}
+                  loading={loading}
+                />
+              </div>
+            )}
+          />
+          <Route
+            exact
+            path="/course/:co_id/chapters"
+            render={(props) => (
+              <div className="container">
+                <Fragment>
+                  <Link to={`../../courses`} className="btn">
+                    Back to Courses
+                  </Link>
+                  <Link to={`../${props.match.params.co_id}`} className="btn">
+                    Back to Course
+                  </Link>
+                  <Search
+                    itemName="chapters"
+                    searchItems={searchChapter}
+                    showAllItems={getCourseChapters}
+                    showAllItemsArgs={{ co_id: props.match.params.co_id }}
+                    isSearching={isSearching}
+                    setAlert={showAlert}
+                  />
+                  <Chapters
+                    loading={loading}
+                    chapters={isSearching ? filteredChapters : chapters}
+                  />
+                </Fragment>
+              </div>
+            )}
+          />
+          <Route
+            exact
+            path="/course/:co_id/chapter/:ch_id"
+            render={(props) => (
+              <div className="container">
+                <Chapter
+                  {...props}
+                  getChapter={getCourseChapter}
+                  chapter={chapter}
+                  loading={loading}
+                />
+              </div>
+            )}
+          />
+          <Route
+            exact
+            path="/course/:co_id/chapter/:ch_id/words"
+            render={(props) => (
+              <div className="container">
+                <Fragment>
+                  <Link to={`../../chapters`} className="btn">
+                    Back to Chapters
+                  </Link>
+                  <Link to={`../${props.match.params.ch_id}`} className="btn">
+                    Back to Chapter
+                  </Link>
+                  <Search
+                    itemName="words"
+                    searchItems={searchWord}
+                    showAllItems={getCourseChapterWords}
+                    showAllItemsArgs={{
+                      co_id: props.match.params.co_id,
+                      ch_id: props.match.params.ch_id,
                     }}
-                    onClick={refreshCacheAndReload}
-                  >
-                    There is a new version of the vocya dashboard available!
-                    <br />
-                    You are using {currentVersion} and {latestVersion} is
-                    available.
-                    <br /> Click on this message to reload the window. <br />
-                    If this doesn't work try pressing Ctrl+F5 to force refresh
-                  </div>
-                );
-              }
-              return null;
-            }}
-          </CacheBuster>
-          <Alert alert={this.state.alert} />
-          <Switch>
-            <Route
-              exact
-              path={["/", "/words"]}
-              render={(props) => (
-                <div className="container">
-                  <Fragment>
-                    <Search
-                      itemName="words"
-                      searchItems={this.searchWord}
-                      showAllItems={this.words}
-                      isSearching={isSearching}
-                      setAlert={this.setAlert}
-                    />
-                    <Words
-                      loading={loading}
-                      words={isSearching ? filteredWords : words}
-                    />
-                  </Fragment>
-                </div>
-              )}
-            />
-            <Route
-              exact
-              path="/courses"
-              render={(props) => (
-                <div className="container">
-                  <Fragment>
-                    <Search
-                      itemName="courses"
-                      searchItems={this.searchCourse}
-                      showAllItems={this.courses}
-                      isSearching={isSearching}
-                      setAlert={this.setAlert}
-                    />
-                    <Courses
-                      loading={loading}
-                      courses={isSearching ? filteredCourses : courses}
-                    />
-                  </Fragment>
-                </div>
-              )}
-            />
-            <Route
-              exact
-              path="/course/:co_id"
-              render={(props) => (
-                <div className="container">
-                  <Course
-                    {...props}
-                    getCourse={this.course}
-                    course={course}
-                    loading={loading}
+                    isSearching={isSearching}
+                    setAlert={showAlert}
                   />
-                </div>
-              )}
-            />
-            <Route
-              exact
-              path="/course/:co_id/chapters"
-              render={(props) => (
-                <div className="container">
-                  <Fragment>
-                    <Link to={`../../courses`} className="btn">
-                      Back to Courses
-                    </Link>
-                    <Link to={`../${props.match.params.co_id}`} className="btn">
-                      Back to Course
-                    </Link>
-                    <Search
-                      itemName="chapters"
-                      searchItems={this.searchChapter}
-                      showAllItems={this.courseChapters}
-                      showAllItemsArgs={{ co_id: props.match.params.co_id }}
-                      isSearching={isSearching}
-                      setAlert={this.setAlert}
-                    />
-                    <Chapters
-                      loading={loading}
-                      chapters={isSearching ? filteredChapters : chapters}
-                    />
-                  </Fragment>
-                </div>
-              )}
-            />
-            <Route
-              exact
-              path="/course/:co_id/chapter/:ch_id"
-              render={(props) => (
-                <div className="container">
-                  <Chapter
-                    {...props}
-                    getChapter={this.courseChapter}
-                    chapter={chapter}
+                  <Words
                     loading={loading}
+                    words={isSearching ? filteredWords : words}
                   />
-                </div>
-              )}
-            />
-            <Route
-              exact
-              path="/course/:co_id/chapter/:ch_id/words"
-              render={(props) => (
-                <div className="container">
-                  <Fragment>
-                    <Link to={`../../chapters`} className="btn">
-                      Back to Chapters
-                    </Link>
-                    <Link to={`../${props.match.params.ch_id}`} className="btn">
-                      Back to Chapter
-                    </Link>
-                    <Search
-                      itemName="words"
-                      searchItems={this.searchWord}
-                      showAllItems={this.courseChapterWords}
-                      showAllItemsArgs={{
-                        co_id: props.match.params.co_id,
-                        ch_id: props.match.params.ch_id,
-                      }}
-                      isSearching={isSearching}
-                      setAlert={this.setAlert}
-                    />
-                    <Words
-                      loading={loading}
-                      words={isSearching ? filteredWords : words}
-                    />
-                  </Fragment>
-                </div>
-              )}
-            />
-            <Route
-              exact
-              path="/course/:co_id/chapter/:ch_id/word/:wo_id"
-              render={(props) => (
-                <div className="container">
-                  <Word
-                    {...props}
-                    getWord={this.courseChapterWord}
-                    word={word}
-                    loading={loading}
-                  />
-                </div>
-              )}
-            />
-            <Route
-              exact
-              path="/course/:co_id/words"
-              render={(props) => (
-                <div className="container">
-                  <Fragment>
-                    <Link to={`../../courses`} className="btn">
-                      Back to Courses
-                    </Link>
-                    <Link to={`../${props.match.params.co_id}`} className="btn">
-                      Back to Course
-                    </Link>
-                    <Search
-                      itemName="words"
-                      searchItems={this.searchWord}
-                      showAllItems={this.courseWords}
-                      showAllItemsArgs={{
-                        co_id: props.match.params.co_id,
-                      }}
-                      isSearching={isSearching}
-                      setAlert={this.setAlert}
-                    />
-                    <Words
-                      loading={loading}
-                      words={isSearching ? filteredWords : words}
-                    />
-                  </Fragment>
-                </div>
-              )}
-            />
-            <Route
-              exact
-              path="/course/:co_id/word/:wo_id"
-              render={(props) => (
-                <div className="container">
-                  <Word
-                    {...props}
-                    getWord={this.courseWord}
-                    word={word}
-                    loading={loading}
-                  />
-                </div>
-              )}
-            />
-            <Route
-              exact
-              path="/chapters"
-              render={(props) => (
-                <div className="container">
-                  <Fragment>
-                    <Search
-                      itemName="chapters"
-                      searchItems={this.searchChapter}
-                      showAllItems={this.chapters}
-                      isSearching={isSearching}
-                      setAlert={this.setAlert}
-                    />
-                    <Chapters
-                      loading={loading}
-                      chapters={isSearching ? filteredChapters : chapters}
-                    />
-                  </Fragment>
-                </div>
-              )}
-            />
-            <Route
-              exact
-              path="/chapter/:ch_id"
-              render={(props) => (
-                <div className="container">
-                  <Chapter
-                    {...props}
-                    getChapter={this.chapter}
-                    chapter={chapter}
-                    loading={loading}
-                  />
-                </div>
-              )}
-            />
-            <Route
-              exact
-              path="/chapter/:ch_id/words"
-              render={(props) => (
-                <div className="container">
-                  <Fragment>
-                    <Link to={`../../chapters`} className="btn">
-                      Back to Chapters
-                    </Link>
-                    <Link to={`../${props.match.params.ch_id}`} className="btn">
-                      Back to Chapter
-                    </Link>
-                    <Search
-                      itemName="words"
-                      searchItems={this.searchWord}
-                      showAllItems={this.chapterWords}
-                      showAllItemsArgs={{ ch_id: props.match.params.ch_id }}
-                      isSearching={isSearching}
-                      setAlert={this.setAlert}
-                    />
-                    <Words
-                      loading={loading}
-                      words={isSearching ? filteredWords : words}
-                    />
-                  </Fragment>
-                </div>
-              )}
-            />
-            <Route
-              exact
-              path="/chapter/:ch_id/word/:wo_id"
-              render={(props) => (
-                <div className="container">
-                  <Word
-                    {...props}
-                    getWord={this.chapterWord}
-                    word={word}
-                    loading={loading}
-                  />
-                </div>
-              )}
-            />
-            <Route
-              exact
-              path="/word/:wo_id"
-              render={(props) => (
-                <div className="container">
-                  <Word
-                    {...props}
-                    getWord={this.word}
-                    word={word}
-                    loading={loading}
-                  />
-                </div>
-              )}
-            />
-            <Route
-              exact
-              path="/table/hiragana"
-              render={(props) => (
-                <img
-                  src="/kana-tables/hiragana-dark.png"
-                  className="img-fill"
-                  alt="hiragana table"
+                </Fragment>
+              </div>
+            )}
+          />
+          <Route
+            exact
+            path="/course/:co_id/chapter/:ch_id/word/:wo_id"
+            render={(props) => (
+              <div className="container">
+                <Word
+                  {...props}
+                  getWord={getCourseChapterWord}
+                  word={word}
+                  loading={loading}
                 />
-              )}
-            />
-            <Route
-              exact
-              path="/table/katakana"
-              render={(props) => (
-                <img
-                  src="/kana-tables/katakana-dark.png"
-                  className="img-fill"
-                  alt="katakana table"
+              </div>
+            )}
+          />
+          <Route
+            exact
+            path="/course/:co_id/words"
+            render={(props) => (
+              <div className="container">
+                <Fragment>
+                  <Link to={`../../courses`} className="btn">
+                    Back to Courses
+                  </Link>
+                  <Link to={`../${props.match.params.co_id}`} className="btn">
+                    Back to Course
+                  </Link>
+                  <Search
+                    itemName="words"
+                    searchItems={searchWord}
+                    showAllItems={getCourseWords}
+                    showAllItemsArgs={{
+                      co_id: props.match.params.co_id,
+                    }}
+                    isSearching={isSearching}
+                    setAlert={showAlert}
+                  />
+                  <Words
+                    loading={loading}
+                    words={isSearching ? filteredWords : words}
+                  />
+                </Fragment>
+              </div>
+            )}
+          />
+          <Route
+            exact
+            path="/course/:co_id/word/:wo_id"
+            render={(props) => (
+              <div className="container">
+                <Word
+                  {...props}
+                  getWord={getCourseWord}
+                  word={word}
+                  loading={loading}
                 />
-              )}
-            />
-            <Route
-              exact
-              path="/about"
-              render={(props) => (
-                <div className="container">
-                  <About />
-                </div>
-              )}
-            />
-          </Switch>
-        </div>
-      </Router>
-    );
-  }
-}
+              </div>
+            )}
+          />
+          <Route
+            exact
+            path="/chapters"
+            render={(props) => (
+              <div className="container">
+                <Fragment>
+                  <Search
+                    itemName="chapters"
+                    searchItems={searchChapter}
+                    showAllItems={getChapters}
+                    isSearching={isSearching}
+                    setAlert={showAlert}
+                  />
+                  <Chapters
+                    loading={loading}
+                    chapters={isSearching ? filteredChapters : chapters}
+                  />
+                </Fragment>
+              </div>
+            )}
+          />
+          <Route
+            exact
+            path="/chapter/:ch_id"
+            render={(props) => (
+              <div className="container">
+                <Chapter
+                  {...props}
+                  getChapter={getChapter}
+                  chapter={chapter}
+                  loading={loading}
+                />
+              </div>
+            )}
+          />
+          <Route
+            exact
+            path="/chapter/:ch_id/words"
+            render={(props) => (
+              <div className="container">
+                <Fragment>
+                  <Link to={`../../chapters`} className="btn">
+                    Back to Chapters
+                  </Link>
+                  <Link to={`../${props.match.params.ch_id}`} className="btn">
+                    Back to Chapter
+                  </Link>
+                  <Search
+                    itemName="words"
+                    searchItems={searchWord}
+                    showAllItems={getChapterWords}
+                    showAllItemsArgs={{ ch_id: props.match.params.ch_id }}
+                    isSearching={isSearching}
+                    setAlert={showAlert}
+                  />
+                  <Words
+                    loading={loading}
+                    words={isSearching ? filteredWords : words}
+                  />
+                </Fragment>
+              </div>
+            )}
+          />
+          <Route
+            exact
+            path="/chapter/:ch_id/word/:wo_id"
+            render={(props) => (
+              <div className="container">
+                <Word
+                  {...props}
+                  getWord={getChapterWord}
+                  word={word}
+                  loading={loading}
+                />
+              </div>
+            )}
+          />
+          <Route
+            exact
+            path="/word/:wo_id"
+            render={(props) => (
+              <div className="container">
+                <Word
+                  {...props}
+                  getWord={getWord}
+                  word={word}
+                  loading={loading}
+                />
+              </div>
+            )}
+          />
+          <Route
+            exact
+            path="/table/hiragana"
+            render={(props) => (
+              <img
+                src="/kana-tables/hiragana-dark.png"
+                className="img-fill"
+                alt="hiragana table"
+              />
+            )}
+          />
+          <Route
+            exact
+            path="/table/katakana"
+            render={(props) => (
+              <img
+                src="/kana-tables/katakana-dark.png"
+                className="img-fill"
+                alt="katakana table"
+              />
+            )}
+          />
+          <Route
+            exact
+            path="/about"
+            render={(props) => (
+              <div className="container">
+                <About />
+              </div>
+            )}
+          />
+        </Switch>
+      </div>
+    </Router>
+  );
+};
 
 export default App;
