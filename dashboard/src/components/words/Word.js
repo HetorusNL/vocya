@@ -1,35 +1,42 @@
-import React, { Component, Fragment } from "react";
-import Spinner from "../layout/Spinner";
-import PropTypes from "prop-types";
+import React, { Fragment, useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 
-export class Word extends Component {
-  componentDidMount() {
-    this.props.getWord(this.props.match.params);
-  }
+import VocyaApiContext from "../../context/vocya_api/VocyaApiContext";
+import Spinner from "../layout/Spinner";
 
-  static propTypes = {
-    getWord: PropTypes.func.isRequired,
-    word: PropTypes.object.isRequired,
-    loading: PropTypes.bool,
+const Word = ({ match }) => {
+  const vocyaApiContext = useContext(VocyaApiContext);
+
+  const { word, loading } = vocyaApiContext;
+
+  useEffect(() => {
+    if (match.params.co_id && match.params.ch_id && match.params.wo_id) {
+      vocyaApiContext.getCourseChapterWord(match.params);
+    } else if (match.params.co_id && match.params.wo_id) {
+      vocyaApiContext.getCourseWord(match.params);
+    } else if (match.params.ch_id && match.params.wo_id) {
+      vocyaApiContext.getChapterWord(match.params);
+    } else {
+      vocyaApiContext.getWord(match.params);
+    }
+    // eslint-disable-next-line
+  }, []);
+
+  if (loading) return <Spinner />;
+
+  const singleItemStyle = {
+    margin: "auto",
+    width: "max-content",
+  };
+  const wordStyle = {
+    marginTop: "1rem",
+    marginBottom: "1rem",
+    width: "max-content",
   };
 
-  render() {
-    const { word, loading } = this.props;
-
-    if (loading) return <Spinner />;
-    const singleItemStyle = {
-      margin: "auto",
-      width: "max-content",
-    };
-    const wordStyle = {
-      marginTop: "1rem",
-      marginBottom: "1rem",
-      width: "max-content",
-    };
-
-    return (
-      <Fragment>
+  return (
+    <Fragment>
+      <div className="container">
         <Link to="../words" className="btn">
           Back to Search
         </Link>
@@ -72,13 +79,13 @@ export class Word extends Component {
         ) : (
           <div className="card text-left" style={wordStyle}>
             <p style={singleItemStyle}>
-              <b>Error word "{this.props.match.params.wo_id}" not found!</b>
+              <b>Error word "{match.params.wo_id}" not found!</b>
             </p>
           </div>
         )}
-      </Fragment>
-    );
-  }
-}
+      </div>
+    </Fragment>
+  );
+};
 
 export default Word;

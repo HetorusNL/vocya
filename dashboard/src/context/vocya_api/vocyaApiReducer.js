@@ -28,25 +28,25 @@ const vocyaApiReducer = (state, action) => {
     case GET_COURSE_CHAPTER:
       return { ...state, chapter: action.payload, loading: false };
     case GET_COURSE_CHAPTER_WORDS:
-      return { ...state };
+      return { ...state, words: action.payload, loading: false };
     case GET_COURSE_CHAPTER_WORD:
-      return { ...state };
+      return { ...state, word: action.payload, loading: false };
     case GET_COURSE_WORDS:
-      return { ...state };
+      return { ...state, words: action.payload, loading: false };
     case GET_COURSE_WORD:
-      return { ...state };
+      return { ...state, word: action.payload, loading: false };
     case GET_CHAPTERS:
       return { ...state, chapters: action.payload, loading: false };
     case GET_CHAPTER:
       return { ...state, chapter: action.payload, loading: false };
     case GET_CHAPTER_WORDS:
-      return { ...state };
+      return { ...state, words: action.payload, loading: false };
     case GET_CHAPTER_WORD:
-      return { ...state };
+      return { ...state, word: action.payload, loading: false };
     case GET_WORDS:
-      return { ...state };
+      return { ...state, words: action.payload, loading: false };
     case GET_WORD:
-      return { ...state };
+      return { ...state, word: action.payload, loading: false };
     case SET_LOADING:
       return { ...state, loading: true };
     case SET_IS_SEARCHING:

@@ -7,10 +7,14 @@ import Spinner from "../layout/Spinner";
 const Chapter = ({ match }) => {
   const vocyaApiContext = useContext(VocyaApiContext);
 
-  const { chapter, loading, getChapter } = vocyaApiContext;
+  const { chapter, loading } = vocyaApiContext;
 
   useEffect(() => {
-    getChapter(match.params);
+    if (match.params.co_id && match.params.ch_id) {
+      vocyaApiContext.getCourseChapter(match.params);
+    } else {
+      vocyaApiContext.getChapter(match.params);
+    }
     // eslint-disable-next-line
   }, []);
 

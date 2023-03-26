@@ -14,87 +14,15 @@ import Chapter from "./components/chapters/Chapter";
 import Chapters from "./components/chapters/Chapters";
 import Word from "./components/words/Word";
 import Words from "./components/words/Words";
-import {
-  apiCourseChapterWords,
-  apiCourseChapterWord,
-  apiCourseWords,
-  apiCourseWord,
-  apiChapterWords,
-  apiChapterWord,
-  apiWords,
-  apiWord,
-} from "./components/utils/VocyaAPI";
 
 const App = () => {
   const vocyaApiContext = useContext(VocyaApiContext);
 
   const [filteredCourses, setFilteredCourses] = useState([]);
   const [filteredChapters, setFilteredChapters] = useState([]);
-  const [words, setWords] = useState([]);
   const [filteredWords, setFilteredWords] = useState([]);
-  const [word, setWord] = useState({});
   const [loading, setLoading] = useState(false);
   const [alert, setAlert] = useState(null);
-
-  const getCourseChapterWords = async ({ co_id, ch_id }) => {
-    setLoading(true);
-    vocyaApiContext.setIsSearching(false);
-    const res = await apiCourseChapterWords(co_id, ch_id);
-    setWords(res.data);
-    setLoading(false);
-  };
-
-  const getCourseChapterWord = async ({ co_id, ch_id, wo_id }) => {
-    setLoading(true);
-    const res = await apiCourseChapterWord(co_id, ch_id, wo_id);
-    setWord(res.data[0]);
-    setLoading(false);
-  };
-
-  const getCourseWords = async ({ co_id }) => {
-    setLoading(true);
-    vocyaApiContext.setIsSearching(false);
-    const res = await apiCourseWords(co_id);
-    setWords(res.data);
-    setLoading(false);
-  };
-
-  const getCourseWord = async ({ co_id, wo_id }) => {
-    setLoading(true);
-    const res = await apiCourseWord(co_id, wo_id);
-    setWord(res.data[0]);
-    setLoading(false);
-  };
-
-  const getChapterWords = async ({ ch_id }) => {
-    setLoading(true);
-    vocyaApiContext.setIsSearching(false);
-    const res = await apiChapterWords(ch_id);
-    setWords(res.data);
-    setLoading(false);
-  };
-
-  const getChapterWord = async ({ ch_id, wo_id }) => {
-    setLoading(true);
-    const res = await apiChapterWord(ch_id, wo_id);
-    setWord(res.data[0]);
-    setLoading(false);
-  };
-
-  const getWords = async () => {
-    setLoading(true);
-    vocyaApiContext.setIsSearching(false);
-    const res = await apiWords();
-    setWords(res.data);
-    setLoading(false);
-  };
-
-  const getWord = async ({ wo_id }) => {
-    setLoading(true);
-    const res = await apiWord(wo_id);
-    setWord(res.data[0]);
-    setLoading(false);
-  };
 
   const performSearch = async (
     text,
@@ -164,7 +92,7 @@ const App = () => {
   // perform the word search locally instead of via the API
   const searchWord = async ({ text, searchWordOnly, exactMatch }) => {
     let searchWordOnlyKeys = ["dutch", "hiragana", "nihongo", "romaji"];
-    let items = words;
+    let items = vocyaApiContext.words;
     let filtered = await performSearch(
       text,
       searchWordOnly,
@@ -172,6 +100,7 @@ const App = () => {
       exactMatch,
       items
     );
+    vocyaApiContext.setIsSearching(true);
     setFilteredWords(filtered);
     setLoading(false);
   };
@@ -246,12 +175,16 @@ const App = () => {
                   <Search
                     itemName="words"
                     searchItems={searchWord}
-                    showAllItems={getWords}
+                    showAllItems={vocyaApiContext.getWords}
                     setAlert={showAlert}
                   />
                   <Words
                     loading={loading}
-                    words={vocyaApiContext.isSearching ? filteredWords : words}
+                    words={
+                      vocyaApiContext.isSearching
+                        ? filteredWords
+                        : vocyaApiContext.words
+                    }
                   />
                 </Fragment>
               </div>
@@ -333,7 +266,7 @@ const App = () => {
                   <Search
                     itemName="words"
                     searchItems={searchWord}
-                    showAllItems={getCourseChapterWords}
+                    showAllItems={vocyaApiContext.getCourseChapterWords}
                     showAllItemsArgs={{
                       co_id: props.match.params.co_id,
                       ch_id: props.match.params.ch_id,
@@ -342,7 +275,11 @@ const App = () => {
                   />
                   <Words
                     loading={loading}
-                    words={vocyaApiContext.isSearching ? filteredWords : words}
+                    words={
+                      vocyaApiContext.isSearching
+                        ? filteredWords
+                        : vocyaApiContext.words
+                    }
                   />
                 </Fragment>
               </div>
@@ -351,16 +288,7 @@ const App = () => {
           <Route
             exact
             path="/course/:co_id/chapter/:ch_id/word/:wo_id"
-            render={(props) => (
-              <div className="container">
-                <Word
-                  {...props}
-                  getWord={getCourseChapterWord}
-                  word={word}
-                  loading={loading}
-                />
-              </div>
-            )}
+            component={Word}
           />
           <Route
             exact
@@ -377,7 +305,7 @@ const App = () => {
                   <Search
                     itemName="words"
                     searchItems={searchWord}
-                    showAllItems={getCourseWords}
+                    showAllItems={vocyaApiContext.getCourseWords}
                     showAllItemsArgs={{
                       co_id: props.match.params.co_id,
                     }}
@@ -385,26 +313,17 @@ const App = () => {
                   />
                   <Words
                     loading={loading}
-                    words={vocyaApiContext.isSearching ? filteredWords : words}
+                    words={
+                      vocyaApiContext.isSearching
+                        ? filteredWords
+                        : vocyaApiContext.words
+                    }
                   />
                 </Fragment>
               </div>
             )}
           />
-          <Route
-            exact
-            path="/course/:co_id/word/:wo_id"
-            render={(props) => (
-              <div className="container">
-                <Word
-                  {...props}
-                  getWord={getCourseWord}
-                  word={word}
-                  loading={loading}
-                />
-              </div>
-            )}
-          />
+          <Route exact path="/course/:co_id/word/:wo_id" component={Word} />
           <Route
             exact
             path="/chapters"
@@ -445,46 +364,24 @@ const App = () => {
                   <Search
                     itemName="words"
                     searchItems={searchWord}
-                    showAllItems={getChapterWords}
+                    showAllItems={vocyaApiContext.getChapterWords}
                     showAllItemsArgs={{ ch_id: props.match.params.ch_id }}
                     setAlert={showAlert}
                   />
                   <Words
                     loading={loading}
-                    words={vocyaApiContext.isSearching ? filteredWords : words}
+                    words={
+                      vocyaApiContext.isSearching
+                        ? filteredWords
+                        : vocyaApiContext.words
+                    }
                   />
                 </Fragment>
               </div>
             )}
           />
-          <Route
-            exact
-            path="/chapter/:ch_id/word/:wo_id"
-            render={(props) => (
-              <div className="container">
-                <Word
-                  {...props}
-                  getWord={getChapterWord}
-                  word={word}
-                  loading={loading}
-                />
-              </div>
-            )}
-          />
-          <Route
-            exact
-            path="/word/:wo_id"
-            render={(props) => (
-              <div className="container">
-                <Word
-                  {...props}
-                  getWord={getWord}
-                  word={word}
-                  loading={loading}
-                />
-              </div>
-            )}
-          />
+          <Route exact path="/chapter/:ch_id/word/:wo_id" component={Word} />
+          <Route exact path="/word/:wo_id" component={Word} />
           <Route
             exact
             path="/table/hiragana"
