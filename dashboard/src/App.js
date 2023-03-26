@@ -1,7 +1,8 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useContext, useState } from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import "./App.css";
 
+import VocyaApiContext from "./context/vocya_api/VocyaApiContext";
 import About from "./components/pages/About";
 import Alert from "./components/layout/Alert";
 import Navbar from "./components/layout/Navbar";
@@ -14,8 +15,6 @@ import Chapters from "./components/chapters/Chapters";
 import Word from "./components/words/Word";
 import Words from "./components/words/Words";
 import {
-  apiCourses,
-  apiCourse,
   apiCourseChapters,
   apiCourseChapter,
   apiCourseChapterWords,
@@ -31,9 +30,9 @@ import {
 } from "./components/utils/VocyaAPI";
 
 const App = () => {
-  const [courses, setCourses] = useState([]);
+  const vocyaApiContext = useContext(VocyaApiContext);
+
   const [filteredCourses, setFilteredCourses] = useState([]);
-  const [course, setCourse] = useState({});
   const [chapters, setChapters] = useState([]);
   const [filteredChapters, setFilteredChapters] = useState([]);
   const [chapter, setChapter] = useState({});
@@ -43,21 +42,6 @@ const App = () => {
   const [loading, setLoading] = useState(false);
   const [alert, setAlert] = useState(null);
   const [isSearching, setIsSearching] = useState(false);
-
-  const getCourses = async () => {
-    setLoading(true);
-    setIsSearching(false);
-    const res = await apiCourses();
-    setCourses(res.data);
-    setLoading(false);
-  };
-
-  const getCourse = async ({ co_id }) => {
-    setLoading(true);
-    const res = await apiCourse(co_id);
-    setCourse(res.data[0]);
-    setLoading(false);
-  };
 
   const getCourseChapters = async ({ co_id }) => {
     setLoading(true);
@@ -185,7 +169,7 @@ const App = () => {
   // perform the course search locally instead of via the API
   const searchCourse = async ({ text, searchWordOnly, exactMatch }) => {
     let searchWordOnlyKeys = ["abbreviation", "name"];
-    let items = courses;
+    let items = vocyaApiContext.courses;
     let filtered = await performSearch(
       text,
       searchWordOnly,
@@ -193,11 +177,12 @@ const App = () => {
       exactMatch,
       items
     );
+    vocyaApiContext.setIsSearching(true);
     setFilteredCourses(filtered);
     setLoading(false);
   };
 
-  // perform the course search locally instead of via the API
+  // perform the chapter search locally instead of via the API
   const searchChapter = async ({ text, searchWordOnly, exactMatch }) => {
     let searchWordOnlyKeys = ["id", "name"];
     let items = chapters;
@@ -298,7 +283,6 @@ const App = () => {
                     itemName="words"
                     searchItems={searchWord}
                     showAllItems={getWords}
-                    isSearching={isSearching}
                     setAlert={showAlert}
                   />
                   <Words
@@ -318,32 +302,22 @@ const App = () => {
                   <Search
                     itemName="courses"
                     searchItems={searchCourse}
-                    showAllItems={getCourses}
-                    isSearching={isSearching}
+                    showAllItems={vocyaApiContext.getCourses}
                     setAlert={showAlert}
                   />
                   <Courses
                     loading={loading}
-                    courses={isSearching ? filteredCourses : courses}
+                    courses={
+                      vocyaApiContext.isSearching
+                        ? filteredCourses
+                        : vocyaApiContext.courses
+                    }
                   />
                 </Fragment>
               </div>
             )}
           />
-          <Route
-            exact
-            path="/course/:co_id"
-            render={(props) => (
-              <div className="container">
-                <Course
-                  {...props}
-                  getCourse={getCourse}
-                  course={course}
-                  loading={loading}
-                />
-              </div>
-            )}
-          />
+          <Route exact path="/course/:co_id" component={Course} />
           <Route
             exact
             path="/course/:co_id/chapters"
@@ -361,7 +335,6 @@ const App = () => {
                     searchItems={searchChapter}
                     showAllItems={getCourseChapters}
                     showAllItemsArgs={{ co_id: props.match.params.co_id }}
-                    isSearching={isSearching}
                     setAlert={showAlert}
                   />
                   <Chapters
@@ -406,7 +379,6 @@ const App = () => {
                       co_id: props.match.params.co_id,
                       ch_id: props.match.params.ch_id,
                     }}
-                    isSearching={isSearching}
                     setAlert={showAlert}
                   />
                   <Words
@@ -450,7 +422,6 @@ const App = () => {
                     showAllItemsArgs={{
                       co_id: props.match.params.co_id,
                     }}
-                    isSearching={isSearching}
                     setAlert={showAlert}
                   />
                   <Words
@@ -485,7 +456,6 @@ const App = () => {
                     itemName="chapters"
                     searchItems={searchChapter}
                     showAllItems={getChapters}
-                    isSearching={isSearching}
                     setAlert={showAlert}
                   />
                   <Chapters
@@ -527,7 +497,6 @@ const App = () => {
                     searchItems={searchWord}
                     showAllItems={getChapterWords}
                     showAllItemsArgs={{ ch_id: props.match.params.ch_id }}
-                    isSearching={isSearching}
                     setAlert={showAlert}
                   />
                   <Words

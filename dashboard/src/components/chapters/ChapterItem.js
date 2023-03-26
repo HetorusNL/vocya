@@ -10,10 +10,10 @@ const ChapterItem = ({ chapter: { id, name } }) => {
         className="text-dark"
         style={{ display: "flex", flexFlow: "column", height: "100%" }}
       >
-        <p style={{ flex: "0 1 auto", marginBottom: "1rem" }}>
+        <div style={{ flex: "0 1 auto", marginBottom: "1rem" }}>
           <p>{id}</p>
           <p>{name}</p>
-        </p>
+        </div>
         <p style={{ flex: "1 1 auto" }}></p>
         <p>
           <Link to={`chapter/${id}/words`} className="btn">

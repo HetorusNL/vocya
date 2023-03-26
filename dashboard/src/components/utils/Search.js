@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
+
+import VocyaApiContext from "../../context/vocya_api/VocyaApiContext";
 import Checkbox from "./Checkbox";
 
 const Search = ({
@@ -8,9 +10,10 @@ const Search = ({
   searchItems,
   showAllItems,
   showAllItemsArgs,
-  isSearching,
   setAlert,
 }) => {
+  const vocyaApiContext = useContext(VocyaApiContext);
+
   const [text, setText] = useState("");
   const [liveSearch, setLiveSearch] = useState(true);
   const [searchWordOnly, setSearchWordOnly] = useState(true);
@@ -94,7 +97,7 @@ const Search = ({
           <input type="submit" value="Search" className="btn btn-block" />
         )}
       </form>
-      {isSearching && (
+      {vocyaApiContext.isSearching && (
         <button
           className="btn btn-block"
           onClick={() => {
@@ -112,7 +115,6 @@ const Search = ({
 Search.propTypes = {
   searchItems: PropTypes.func.isRequired,
   showAllItems: PropTypes.func.isRequired,
-  isSearching: PropTypes.bool.isRequired,
   setAlert: PropTypes.func.isRequired,
 };
 

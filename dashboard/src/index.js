@@ -1,11 +1,15 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+
+import App from "./App";
+import VocyaApiState from "./context/vocya_api/VocyaApiState";
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <VocyaApiState>
+      <App />
+    </VocyaApiState>
   </React.StrictMode>,
   document.getElementById("root")
 );

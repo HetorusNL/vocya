@@ -1,35 +1,34 @@
-import React, { Component, Fragment } from "react";
-import Spinner from "../layout/Spinner";
-import PropTypes from "prop-types";
+import React, { Fragment, useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 
-export class Course extends Component {
-  componentDidMount() {
-    this.props.getCourse(this.props.match.params);
-  }
+import VocyaApiContext from "../../context/vocya_api/VocyaApiContext";
+import Spinner from "../layout/Spinner";
 
-  static propTypes = {
-    getCourse: PropTypes.func.isRequired,
-    course: PropTypes.object.isRequired,
-    loading: PropTypes.bool,
+const Course = ({ match }) => {
+  const vocyaApiContext = useContext(VocyaApiContext);
+
+  const { course, loading, getCourse } = vocyaApiContext;
+
+  useEffect(() => {
+    getCourse(match.params.co_id);
+    // eslint-disable-next-line
+  }, []);
+
+  if (loading) return <Spinner />;
+
+  const singleItemStyle = {
+    margin: "auto",
+    width: "max-content",
+  };
+  const courseStyle = {
+    marginTop: "1rem",
+    marginBottom: "1rem",
+    width: "max-content",
   };
 
-  render() {
-    const { course, loading } = this.props;
-
-    if (loading) return <Spinner />;
-    const singleItemStyle = {
-      margin: "auto",
-      width: "max-content",
-    };
-    const courseStyle = {
-      marginTop: "1rem",
-      marginBottom: "1rem",
-      width: "max-content",
-    };
-
-    return (
-      <Fragment>
+  return (
+    <Fragment>
+      <div className="container">
         <Link to="../courses" className="btn">
           Back to Courses
         </Link>
@@ -41,13 +40,10 @@ export class Course extends Component {
               </p>
               <p style={singleItemStyle}>{course.name}</p>
             </div>
-            <Link
-              to={`${this.props.match.params.co_id}/chapters`}
-              className="btn"
-            >
+            <Link to={`${match.params.co_id}/chapters`} className="btn">
               {course.abbreviation} Chapters
             </Link>
-            <Link to={`${this.props.match.params.co_id}/words`} className="btn">
+            <Link to={`${match.params.co_id}/words`} className="btn">
               {course.abbreviation} Words
             </Link>
             <div className="card text-left" style={courseStyle}>
@@ -57,13 +53,13 @@ export class Course extends Component {
         ) : (
           <div className="card text-left" style={courseStyle}>
             <p style={singleItemStyle}>
-              <b>Error course "{this.props.match.params.co_id}" not found!</b>
+              <b>Error course "{match.params.co_id}" not found!</b>
             </p>
           </div>
         )}
-      </Fragment>
-    );
-  }
-}
+      </div>
+    </Fragment>
+  );
+};
 
 export default Course;
