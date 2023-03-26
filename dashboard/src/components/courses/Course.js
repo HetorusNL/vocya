@@ -10,7 +10,7 @@ const Course = ({ match }) => {
   const { course, loading, getCourse } = vocyaApiContext;
 
   useEffect(() => {
-    getCourse(match.params.co_id);
+    getCourse(match.params);
     // eslint-disable-next-line
   }, []);
 

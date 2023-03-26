@@ -19,7 +19,14 @@ import {
   SET_LOADING,
   SET_IS_SEARCHING,
 } from "../types";
-import { apiCourse, apiCourses } from "../../components/utils/VocyaAPI";
+import {
+  apiChapter,
+  apiChapters,
+  apiCourse,
+  apiCourseChapter,
+  apiCourseChapters,
+  apiCourses,
+} from "../../components/utils/VocyaAPI";
 
 const VocyaApiState = (props) => {
   const initialState = {
@@ -31,26 +38,57 @@ const VocyaApiState = (props) => {
     word: {},
     loading: false,
     isSearching: false,
-    alert: null,
   };
 
   const [state, dispatch] = useReducer(vocyaApiReducer, initialState);
 
   // get courses
   const getCourses = async () => {
-    setLoading();
-    setIsSearching(false);
+    setupPageForNewContent();
     const res = await apiCourses();
     dispatch({ type: GET_COURSES, payload: res.data });
   };
 
   // get course
-  const getCourse = async (co_id) => {
-    setLoading();
-    setIsSearching(false);
+  const getCourse = async ({ co_id }) => {
+    setupPageForNewContent();
     const res = await apiCourse(co_id);
     console.log(res);
     dispatch({ type: GET_COURSE, payload: res.data[0] });
+  };
+
+  // get course chapters
+  const getCourseChapters = async ({ co_id }) => {
+    setupPageForNewContent();
+    const res = await apiCourseChapters(co_id);
+    dispatch({ type: GET_COURSE_CHAPTERS, payload: res.data });
+  };
+
+  // get course chapter
+  const getCourseChapter = async ({ co_id, ch_id }) => {
+    setupPageForNewContent();
+    const res = await apiCourseChapter(co_id, ch_id);
+    dispatch({ type: GET_COURSE_CHAPTER, payload: res.data[0] });
+  };
+
+  // get chapters
+  const getChapters = async () => {
+    setupPageForNewContent();
+    const res = await apiChapters();
+    dispatch({ type: GET_CHAPTERS, payload: res.data });
+  };
+
+  // get chapter
+  const getChapter = async ({ ch_id }) => {
+    setupPageForNewContent();
+    const res = await apiChapter(ch_id);
+    dispatch({ type: GET_CHAPTER, payload: res.data[0] });
+  };
+
+  // setup page for new content, clearing loading and is searching
+  const setupPageForNewContent = () => {
+    setLoading();
+    setIsSearching(false);
   };
 
   // set loading
@@ -65,10 +103,16 @@ const VocyaApiState = (props) => {
       value={{
         courses: state.courses,
         course: state.course,
+        chapters: state.chapters,
+        chapter: state.chapter,
         loading: state.loading,
         isSearching: state.isSearching,
         getCourses,
         getCourse,
+        getCourseChapters,
+        getCourseChapter,
+        getChapters,
+        getChapter,
         setIsSearching,
       }}
     >

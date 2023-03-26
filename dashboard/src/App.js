@@ -15,14 +15,10 @@ import Chapters from "./components/chapters/Chapters";
 import Word from "./components/words/Word";
 import Words from "./components/words/Words";
 import {
-  apiCourseChapters,
-  apiCourseChapter,
   apiCourseChapterWords,
   apiCourseChapterWord,
   apiCourseWords,
   apiCourseWord,
-  apiChapters,
-  apiChapter,
   apiChapterWords,
   apiChapterWord,
   apiWords,
@@ -33,34 +29,16 @@ const App = () => {
   const vocyaApiContext = useContext(VocyaApiContext);
 
   const [filteredCourses, setFilteredCourses] = useState([]);
-  const [chapters, setChapters] = useState([]);
   const [filteredChapters, setFilteredChapters] = useState([]);
-  const [chapter, setChapter] = useState({});
   const [words, setWords] = useState([]);
   const [filteredWords, setFilteredWords] = useState([]);
   const [word, setWord] = useState({});
   const [loading, setLoading] = useState(false);
   const [alert, setAlert] = useState(null);
-  const [isSearching, setIsSearching] = useState(false);
-
-  const getCourseChapters = async ({ co_id }) => {
-    setLoading(true);
-    setIsSearching(false);
-    const res = await apiCourseChapters(co_id);
-    setChapters(res.data);
-    setLoading(false);
-  };
-
-  const getCourseChapter = async ({ co_id, ch_id }) => {
-    setLoading(true);
-    const res = await apiCourseChapter(co_id, ch_id);
-    setChapter(res.data[0]);
-    setLoading(false);
-  };
 
   const getCourseChapterWords = async ({ co_id, ch_id }) => {
     setLoading(true);
-    setIsSearching(false);
+    vocyaApiContext.setIsSearching(false);
     const res = await apiCourseChapterWords(co_id, ch_id);
     setWords(res.data);
     setLoading(false);
@@ -75,7 +53,7 @@ const App = () => {
 
   const getCourseWords = async ({ co_id }) => {
     setLoading(true);
-    setIsSearching(false);
+    vocyaApiContext.setIsSearching(false);
     const res = await apiCourseWords(co_id);
     setWords(res.data);
     setLoading(false);
@@ -88,24 +66,9 @@ const App = () => {
     setLoading(false);
   };
 
-  const getChapters = async () => {
-    setLoading(true);
-    setIsSearching(false);
-    const res = await apiChapters();
-    setChapters(res.data);
-    setLoading(false);
-  };
-
-  const getChapter = async ({ ch_id }) => {
-    setLoading(true);
-    const res = await apiChapter(ch_id);
-    setChapter(res.data[0]);
-    setLoading(false);
-  };
-
   const getChapterWords = async ({ ch_id }) => {
     setLoading(true);
-    setIsSearching(false);
+    vocyaApiContext.setIsSearching(false);
     const res = await apiChapterWords(ch_id);
     setWords(res.data);
     setLoading(false);
@@ -120,7 +83,7 @@ const App = () => {
 
   const getWords = async () => {
     setLoading(true);
-    setIsSearching(false);
+    vocyaApiContext.setIsSearching(false);
     const res = await apiWords();
     setWords(res.data);
     setLoading(false);
@@ -141,7 +104,7 @@ const App = () => {
     items
   ) => {
     setLoading(true);
-    setIsSearching(true);
+    vocyaApiContext.setIsSearching(true);
     var filteredItems = [];
     let textLowerSplit = text.toLowerCase().split(/[\s/]+/);
     items.forEach((item) => {
@@ -185,7 +148,7 @@ const App = () => {
   // perform the chapter search locally instead of via the API
   const searchChapter = async ({ text, searchWordOnly, exactMatch }) => {
     let searchWordOnlyKeys = ["id", "name"];
-    let items = chapters;
+    let items = vocyaApiContext.chapters;
     let filtered = await performSearch(
       text,
       searchWordOnly,
@@ -193,6 +156,7 @@ const App = () => {
       exactMatch,
       items
     );
+    vocyaApiContext.setIsSearching(true);
     setFilteredChapters(filtered);
     setLoading(false);
   };
@@ -287,7 +251,7 @@ const App = () => {
                   />
                   <Words
                     loading={loading}
-                    words={isSearching ? filteredWords : words}
+                    words={vocyaApiContext.isSearching ? filteredWords : words}
                   />
                 </Fragment>
               </div>
@@ -333,13 +297,17 @@ const App = () => {
                   <Search
                     itemName="chapters"
                     searchItems={searchChapter}
-                    showAllItems={getCourseChapters}
+                    showAllItems={vocyaApiContext.getCourseChapters}
                     showAllItemsArgs={{ co_id: props.match.params.co_id }}
                     setAlert={showAlert}
                   />
                   <Chapters
                     loading={loading}
-                    chapters={isSearching ? filteredChapters : chapters}
+                    chapters={
+                      vocyaApiContext.isSearching
+                        ? filteredChapters
+                        : vocyaApiContext.chapters
+                    }
                   />
                 </Fragment>
               </div>
@@ -348,16 +316,7 @@ const App = () => {
           <Route
             exact
             path="/course/:co_id/chapter/:ch_id"
-            render={(props) => (
-              <div className="container">
-                <Chapter
-                  {...props}
-                  getChapter={getCourseChapter}
-                  chapter={chapter}
-                  loading={loading}
-                />
-              </div>
-            )}
+            component={Chapter}
           />
           <Route
             exact
@@ -383,7 +342,7 @@ const App = () => {
                   />
                   <Words
                     loading={loading}
-                    words={isSearching ? filteredWords : words}
+                    words={vocyaApiContext.isSearching ? filteredWords : words}
                   />
                 </Fragment>
               </div>
@@ -426,7 +385,7 @@ const App = () => {
                   />
                   <Words
                     loading={loading}
-                    words={isSearching ? filteredWords : words}
+                    words={vocyaApiContext.isSearching ? filteredWords : words}
                   />
                 </Fragment>
               </div>
@@ -455,31 +414,22 @@ const App = () => {
                   <Search
                     itemName="chapters"
                     searchItems={searchChapter}
-                    showAllItems={getChapters}
+                    showAllItems={vocyaApiContext.getChapters}
                     setAlert={showAlert}
                   />
                   <Chapters
                     loading={loading}
-                    chapters={isSearching ? filteredChapters : chapters}
+                    chapters={
+                      vocyaApiContext.isSearching
+                        ? filteredChapters
+                        : vocyaApiContext.chapters
+                    }
                   />
                 </Fragment>
               </div>
             )}
           />
-          <Route
-            exact
-            path="/chapter/:ch_id"
-            render={(props) => (
-              <div className="container">
-                <Chapter
-                  {...props}
-                  getChapter={getChapter}
-                  chapter={chapter}
-                  loading={loading}
-                />
-              </div>
-            )}
-          />
+          <Route exact path="/chapter/:ch_id" component={Chapter} />
           <Route
             exact
             path="/chapter/:ch_id/words"
@@ -501,7 +451,7 @@ const App = () => {
                   />
                   <Words
                     loading={loading}
-                    words={isSearching ? filteredWords : words}
+                    words={vocyaApiContext.isSearching ? filteredWords : words}
                   />
                 </Fragment>
               </div>

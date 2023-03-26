@@ -24,9 +24,9 @@ const vocyaApiReducer = (state, action) => {
     case GET_COURSE:
       return { ...state, course: action.payload, loading: false };
     case GET_COURSE_CHAPTERS:
-      return { ...state };
+      return { ...state, chapters: action.payload, loading: false };
     case GET_COURSE_CHAPTER:
-      return { ...state };
+      return { ...state, chapter: action.payload, loading: false };
     case GET_COURSE_CHAPTER_WORDS:
       return { ...state };
     case GET_COURSE_CHAPTER_WORD:
@@ -36,9 +36,9 @@ const vocyaApiReducer = (state, action) => {
     case GET_COURSE_WORD:
       return { ...state };
     case GET_CHAPTERS:
-      return { ...state };
+      return { ...state, chapters: action.payload, loading: false };
     case GET_CHAPTER:
-      return { ...state };
+      return { ...state, chapter: action.payload, loading: false };
     case GET_CHAPTER_WORDS:
       return { ...state };
     case GET_CHAPTER_WORD:

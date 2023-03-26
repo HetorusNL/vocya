@@ -1,35 +1,34 @@
-import React, { Component, Fragment } from "react";
-import Spinner from "../layout/Spinner";
-import PropTypes from "prop-types";
+import React, { Fragment, useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 
-export class Chapter extends Component {
-  componentDidMount() {
-    this.props.getChapter(this.props.match.params);
-  }
+import VocyaApiContext from "../../context/vocya_api/VocyaApiContext";
+import Spinner from "../layout/Spinner";
 
-  static propTypes = {
-    getChapter: PropTypes.func.isRequired,
-    chapter: PropTypes.object.isRequired,
-    loading: PropTypes.bool,
+const Chapter = ({ match }) => {
+  const vocyaApiContext = useContext(VocyaApiContext);
+
+  const { chapter, loading, getChapter } = vocyaApiContext;
+
+  useEffect(() => {
+    getChapter(match.params);
+    // eslint-disable-next-line
+  }, []);
+
+  if (loading) return <Spinner />;
+
+  const singleItemStyle = {
+    margin: "auto",
+    width: "max-content",
+  };
+  const chapterStyle = {
+    marginTop: "1rem",
+    marginBottom: "1rem",
+    width: "max-content",
   };
 
-  render() {
-    const { chapter, loading } = this.props;
-
-    if (loading) return <Spinner />;
-    const singleItemStyle = {
-      margin: "auto",
-      width: "max-content",
-    };
-    const chapterStyle = {
-      marginTop: "1rem",
-      marginBottom: "1rem",
-      width: "max-content",
-    };
-
-    return (
-      <Fragment>
+  return (
+    <Fragment>
+      <div className="container">
         <Link to="../chapters" className="btn">
           Back to Chapters
         </Link>
@@ -46,7 +45,7 @@ export class Chapter extends Component {
               <p style={singleItemStyle}>{chapter.id}</p>
               <p style={singleItemStyle}>{chapter.name}</p>
             </div>
-            <Link to={`${this.props.match.params.ch_id}/words`} className="btn">
+            <Link to={`${match.params.ch_id}/words`} className="btn">
               {chapter.id} Words
             </Link>
             <div className="card text-left" style={chapterStyle}>
@@ -56,13 +55,13 @@ export class Chapter extends Component {
         ) : (
           <div className="card text-left" style={chapterStyle}>
             <p style={singleItemStyle}>
-              <b>Error chapter "{this.props.match.params.ch_id}" not found!</b>
+              <b>Error chapter "{match.params.ch_id}" not found!</b>
             </p>
           </div>
         )}
-      </Fragment>
-    );
-  }
-}
+      </div>
+    </Fragment>
+  );
+};
 
 export default Chapter;
