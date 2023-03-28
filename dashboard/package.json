@@ -1,6 +1,6 @@
 {
   "name": "dashboard",
-  "version": "1.0.18",
+  "version": "1.0.19",
   "private": true,
   "dependencies": {
     "axios": "^0.21.1",
