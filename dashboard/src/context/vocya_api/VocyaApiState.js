@@ -150,12 +150,13 @@ const VocyaApiState = (props) => {
 
   // setup page for new content, clearing loading and is searching
   const setupPageForNewContent = () => {
-    setLoading();
+    setLoading(true);
     setIsSearching(false);
   };
 
   // set loading
-  const setLoading = () => dispatch({ type: SET_LOADING });
+  const setLoading = (loading) =>
+    dispatch({ type: SET_LOADING, payload: loading });
 
   // set is searching
   const setIsSearching = (isSearching) =>
@@ -186,6 +187,7 @@ const VocyaApiState = (props) => {
         getChapterWord,
         getWords,
         getWord,
+        setLoading,
         setIsSearching,
       }}
     >

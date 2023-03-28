@@ -48,7 +48,7 @@ const vocyaApiReducer = (state, action) => {
     case GET_WORD:
       return { ...state, word: action.payload, loading: false };
     case SET_LOADING:
-      return { ...state, loading: true };
+      return { ...state, loading: action.payload };
     case SET_IS_SEARCHING:
       return { ...state, isSearching: action.payload };
     default:

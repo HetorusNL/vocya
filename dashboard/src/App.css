@@ -5,10 +5,11 @@
   --primary-color: #4527a0;
   --danger-color: #dc3545;
   --success-color: #28a745;
-  --light-color: #ffffff;
-  --dark-color: #000000;
-  --dark-surface-color: rgba(255, 255, 255, 0.12);
-  --light-surface-color: rgba(0, 0, 0, 0.12);
+  --text-color: #ffffff;
+  --text-light-hover-color: #eeeeee;
+  --text-dark-hover-color: #aaaaaa;
+  --background-color: #000000;
+  --background-dark-surface-color: #1e1e1e;
   --primary-hover-color: #6a52b3;
 }
 
@@ -22,8 +23,8 @@ body {
   font-family: "Roboto", sans-serif;
   font-size: 1rem;
   line-height: 1.6;
-  background-color: var(--dark-color);
-  color: var(--light-color);
+  background-color: var(--background-color);
+  color: var(--text-color);
 }
 
 a {
@@ -32,7 +33,7 @@ a {
 }
 
 a:hover {
-  color: var(--light-color);
+  color: var(--text-color);
 }
 
 ul {
@@ -85,7 +86,7 @@ ul {
 }
 
 .text-dark {
-  color: var(--light-color);
+  color: var(--text-color);
 }
 
 .text-success {
@@ -122,7 +123,7 @@ ul {
 /* Cards */
 .card {
   padding: 1rem;
-  background: var(--dark-surface-color);
+  background: var(--background-dark-surface-color);
   margin: 0rem;
   border-radius: 2.5px;
 }
@@ -210,7 +211,7 @@ ul {
 .btn {
   display: inline-block;
   background: var(--primary-color);
-  color: var(--light-color);
+  color: var(--text-color);
   padding: 0.4rem 1.3rem;
   font-size: 1rem;
   border: none;
@@ -292,8 +293,8 @@ ul {
   padding: 0.2rem 0.7rem;
   text-align: center;
   margin: 0.3rem;
-  background: var(--dark-surface-color);
-  color: var(--light-color);
+  background: var(--background-dark-surface-color);
+  color: var(--text-color);
   border-radius: 5px;
 }
 
@@ -302,21 +303,21 @@ ul {
   margin: 1rem 0;
   opacity: 0.9;
   background: var(--primary-color);
-  color: var(--light-color);
+  color: var(--text-color);
 }
 
 .bg-primary,
 .badge-primary,
 .alert-primary {
   background: var(--primary-color);
-  color: var(--light-color);
+  color: var(--text-color);
 }
 
 .bg-dark,
 .badge-dark,
 .alert-dark {
   background: var(--primary-color);
-  color: var(--light-color);
+  color: var(--text-color);
 }
 
 .btn-danger,
@@ -324,7 +325,7 @@ ul {
 .badge-danger,
 .alert-danger {
   background: var(--danger-color);
-  color: var(--light-color);
+  color: var(--text-color);
 }
 
 .btn-success,
@@ -332,15 +333,15 @@ ul {
 .badge-success,
 .alert-success {
   background: var(--success-color);
-  color: var(--light-color);
+  color: var(--text-color);
 }
 
 .btn-white,
 .bg-white,
 .badge-white,
 .alert-white {
-  background: var(--dark-surface-color);
-  color: var(--light-color);
+  background: var(--background-dark-surface-color);
+  color: var(--text-color);
   /* border: #ccc solid 1px; */
 }
 
@@ -388,7 +389,7 @@ table td {
 }
 
 table th {
-  background: var(--dark-surface-color);
+  background: var(--background-dark-surface-color);
 }
 
 /* Navbar */
@@ -408,13 +409,13 @@ table th {
 }
 
 .navbar a {
-  color: var(--light-color);
+  color: var(--text-color);
   padding: 0.45rem;
   margin: 0 0.25rem;
 }
 
 .navbar a:hover {
-  color: var(--light-color);
+  color: var(--text-color);
 }
 
 .navbar .welcome span {
