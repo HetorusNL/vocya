@@ -15,6 +15,7 @@ const Navbar = () => {
   const [useHamburgerMenu, setUseHamburgerMenu] = useState(
     window.innerWidth < hamburgerMenuMaxWidth
   );
+  const [menuOpen, setMenuOpen] = useState(false);
 
   // monitor resize events and store the window width on a resize
   useEffect(() => {
@@ -42,9 +43,12 @@ const Navbar = () => {
     <React.Fragment>
       {/* render a hamburger menu, as the width is smaller than some value */}
       {useHamburgerMenu && (
-        <Menu>
+        <Menu
+          isOpen={menuOpen}
+          onStateChange={({ isOpen }) => setMenuOpen(isOpen)}
+        >
           {links.map((link, index) => (
-            <Link key={index} to={link.to}>
+            <Link key={index} to={link.to} onClick={() => setMenuOpen(false)}>
               {link.name}
             </Link>
           ))}

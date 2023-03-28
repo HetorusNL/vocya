@@ -24,7 +24,13 @@ const Search = ({
   useEffect(() => {
     console.log("location changed, search for items and focus searchBox");
     _searchItems();
-    searchBox.focus(); // focus the searchBox on a location change (and thus initial loading)
+    // TODO: move to context (same with Navbar.js)
+    const hamburgerMenuMaxWidth = 1500;
+    // on large screens (assume pc/laptop devices) focus the searchBox
+    if (window.innerWidth > hamburgerMenuMaxWidth) {
+      // focus the searchBox on a location change (and thus initial loading)
+      searchBox.focus();
+    }
     // we don't want _searchItems in the dependency array, so ignore the warning
   }, [location]); // eslint-disable-line react-hooks/exhaustive-deps
 
