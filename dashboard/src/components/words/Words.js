@@ -9,14 +9,6 @@ const Words = ({ words }) => {
   const [maxElements, setMaxElements] = useState(0);
   const wordsPerPage = 50;
   const targetPixelsFromBottom = 2000;
-  const wordStyle = {
-    display: "grid",
-    maxWidth: "1500px",
-    gridTemplateColumns: "repeat(auto-fill, minmax(250px, 1fr))",
-    gridGap: "1rem",
-    marginTop: "1rem",
-    marginBottom: "1rem",
-  };
 
   // if words change, reset the max elements on the page to '2 pages'
   useEffect(() => {
@@ -52,7 +44,7 @@ const Words = ({ words }) => {
   return (
     <div>
       Search results: {allWords.length}, shown: {shownWords.length}
-      <div style={wordStyle}>
+      <div className="object-grid">
         {shownWords.map((word) => (
           <WordItem key={word.id} word={word} />
         ))}

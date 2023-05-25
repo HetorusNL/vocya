@@ -5,6 +5,7 @@ import "./App.css";
 import VocyaApiContext from "./context/vocya_api/VocyaApiContext";
 import About from "./components/pages/About";
 import Alert from "./components/layout/Alert";
+import Benkyou from "./components/benkyou/Benkyou";
 import Navbar from "./components/layout/Navbar";
 import CacheBuster from "./components/utils/CacheBuster";
 import Search from "./components/utils/Search";
@@ -185,6 +186,15 @@ const App = () => {
                     }
                   />
                 </Fragment>
+              </div>
+            )}
+          />
+          <Route
+            exact
+            path="/benkyou"
+            render={(props) => (
+              <div className="container">
+                <Benkyou></Benkyou>
               </div>
             )}
           />

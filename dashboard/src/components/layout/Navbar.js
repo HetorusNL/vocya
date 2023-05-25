@@ -10,8 +10,8 @@ import "./Sidebar.css";
 const Navbar = () => {
   const vocyaApiContext = useContext(VocyaApiContext);
 
-  // switch to hamburger menu if the screen width is more than hamburgerMenuMaxWidth
-  const hamburgerMenuMaxWidth = 1500;
+  // switch to hamburger menu if the screen width is less than hamburgerMenuMaxWidth
+  const hamburgerMenuMaxWidth = 1600;
   const [useHamburgerMenu, setUseHamburgerMenu] = useState(
     window.innerWidth < hamburgerMenuMaxWidth
   );
@@ -27,6 +27,7 @@ const Navbar = () => {
 
   const links = [
     { to: "/", name: "Home" },
+    { to: "/benkyou", name: "勉強(study)" },
     { to: "/courses", name: "Courses" },
     { to: "/chapters", name: "Chapters" },
     { to: "/course/jem1/words", name: "JEM1 words" },

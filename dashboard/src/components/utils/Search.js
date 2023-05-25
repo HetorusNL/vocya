@@ -61,18 +61,9 @@ const Search = ({
     }
   };
 
-  const itemStyle = {
-    display: "grid",
-    maxWidth: "1500px",
-    gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
-    gridGap: "1rem",
-    marginTop: "1rem",
-    marginBottom: "1rem",
-  };
-
   return (
     <div>
-      <div style={itemStyle}>
+      <div className="object-grid grid-fit">
         <Checkbox
           text="Live search"
           update={(checked) => setLiveSearch(checked)}

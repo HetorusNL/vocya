@@ -20,7 +20,8 @@ const About = () => {
         using this site. It's possible to find the words of a specific course,
         chapter or by searching all words. Also the hiragana and katakana tables
         are available. このウエブサイトの言葉を勉強します (studying the words on
-        this website) is currently being worked on.
+        this website) can be done by browsing for words to study, and clicking
+        on '勉強(study)'.
       </p>
       <br></br>
       <p>
