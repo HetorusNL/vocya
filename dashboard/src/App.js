@@ -174,6 +174,7 @@ const App = () => {
                 <Fragment>
                   <Search
                     itemName="words"
+                    items={vocyaApiContext.words}
                     searchItems={searchWord}
                     showAllItems={vocyaApiContext.getWords}
                     setAlert={showAlert}
@@ -206,6 +207,7 @@ const App = () => {
                 <Fragment>
                   <Search
                     itemName="courses"
+                    items={vocyaApiContext.courses}
                     searchItems={searchCourse}
                     showAllItems={vocyaApiContext.getCourses}
                     setAlert={showAlert}
@@ -236,6 +238,7 @@ const App = () => {
                   </Link>
                   <Search
                     itemName="chapters"
+                    items={vocyaApiContext.chapters}
                     searchItems={searchChapter}
                     showAllItems={vocyaApiContext.getCourseChapters}
                     showAllItemsArgs={{ co_id: props.match.params.co_id }}
@@ -271,6 +274,7 @@ const App = () => {
                   </Link>
                   <Search
                     itemName="words"
+                    items={vocyaApiContext.words}
                     searchItems={searchWord}
                     showAllItems={vocyaApiContext.getCourseChapterWords}
                     showAllItemsArgs={{
@@ -309,6 +313,7 @@ const App = () => {
                   </Link>
                   <Search
                     itemName="words"
+                    items={vocyaApiContext.words}
                     searchItems={searchWord}
                     showAllItems={vocyaApiContext.getCourseWords}
                     showAllItemsArgs={{
@@ -336,6 +341,7 @@ const App = () => {
                 <Fragment>
                   <Search
                     itemName="chapters"
+                    items={vocyaApiContext.chapters}
                     searchItems={searchChapter}
                     showAllItems={vocyaApiContext.getChapters}
                     setAlert={showAlert}
@@ -366,6 +372,7 @@ const App = () => {
                   </Link>
                   <Search
                     itemName="words"
+                    items={vocyaApiContext.words}
                     searchItems={searchWord}
                     showAllItems={vocyaApiContext.getChapterWords}
                     showAllItemsArgs={{ ch_id: props.match.params.ch_id }}

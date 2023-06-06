@@ -1,12 +1,14 @@
 import React, { useState, useEffect, useContext } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
+import queryString from "query-string";
 
 import VocyaApiContext from "../../context/vocya_api/VocyaApiContext";
 import Checkbox from "./Checkbox";
 
 const Search = ({
   itemName,
+  items,
   searchItems,
   showAllItems,
   showAllItemsArgs,
@@ -19,11 +21,56 @@ const Search = ({
   const [searchWordOnly, setSearchWordOnly] = useState(true);
   const [exactMatch, setExactMatch] = useState(false);
   const location = useLocation();
+  const history = useHistory();
   let searchBox = null;
+
+  // TODO: fix the race condition with the useEffects here
+
+  useEffect(() => {
+    // on load of the page, make sure to load all items
+    showAllItems(showAllItemsArgs);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    // when items change (e.g. the data has loaded)
+    // check if we need to perform a search
+    if (items.length > 0) checkQueryString();
+  }, [items]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const checkQueryString = () => {
+    console.log("checkQueryString");
+    if (location.search) {
+      const query = queryString.parse(location.search);
+      if (query.search) {
+        setText(query.search);
+        vocyaApiContext.setIsSearching(true);
+        _searchItems();
+        return true;
+      }
+    }
+    setText("");
+    return false;
+  };
+
+  const setSearchText = (text) => {
+    const query = queryString.parse(location.search);
+    if (text) query.search = text;
+    else delete query.search;
+    // here location is the path after the domain name
+    // location.search is the whole query string
+    // location.search.search is the string the user typed in the search box
+    history.push({
+      location,
+      search: queryString.stringify({ ...query }),
+    });
+    setText(text);
+  };
 
   useEffect(() => {
     console.log("location changed, search for items and focus searchBox");
-    _searchItems();
+    if (!checkQueryString()) {
+      showAllItems(showAllItemsArgs);
+    }
     // TODO: move to context (same with Navbar.js)
     const hamburgerMenuMaxWidth = 1500;
     // on large screens (assume pc/laptop devices) focus the searchBox
@@ -35,15 +82,17 @@ const Search = ({
   }, [location]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    console.log("checkboxes or text changed, search for items if liveSearch");
+    console.log("checkboxes changed, search for items if liveSearch");
     if (liveSearch) _searchItems();
     // we don't want _searchItems in the dependency array, so ignore the warning
-  }, [text, liveSearch, searchWordOnly, exactMatch]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [liveSearch, searchWordOnly, exactMatch]); // eslint-disable-line react-hooks/exhaustive-deps
 
   let _searchItems = () => {
     if (text === "") {
+      console.log("fetching all items");
       showAllItems(showAllItemsArgs);
     } else {
+      console.log("searching items for", text);
       searchItems({
         text: text,
         searchWordOnly: searchWordOnly,
@@ -87,8 +136,8 @@ const Search = ({
           placeholder={`Search ${itemName}...`}
           value={text}
           ref={(input) => (searchBox = input)}
-          onChange={(e) => setText(e.target.value)}
-          onKeyDown={(e) => e.code === "Escape" && setText("")}
+          onChange={(e) => setSearchText(e.target.value)}
+          onKeyDown={(e) => e.code === "Escape" && setSearchText("")}
         />
         {!liveSearch && (
           <input type="submit" value="Search" className="btn btn-block" />
@@ -98,8 +147,8 @@ const Search = ({
         <button
           className="btn btn-block"
           onClick={() => {
-            showAllItems();
-            setText("");
+            showAllItems(showAllItemsArgs);
+            setSearchText("");
           }}
         >
           Show all {itemName}
