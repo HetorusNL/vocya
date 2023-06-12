@@ -2,9 +2,12 @@ import React, { Fragment, useContext, useEffect, useState } from "react";
 
 import VocyaApiContext from "../../context/vocya_api/VocyaApiContext";
 import Checkbox from "../utils/Checkbox";
+import RouteLeavingGuard from "../prompt/RouteLeavingGuard";
+import { useHistory } from "react-router-dom";
 
 const Benkyou = () => {
   const vocyaApiContext = useContext(VocyaApiContext);
+  const history = useHistory();
   const { words } = vocyaApiContext;
 
   const allWordsToBenkyou = words;
@@ -126,6 +129,12 @@ const Benkyou = () => {
   const renderStarted = () => {
     return (
       <Fragment>
+        <RouteLeavingGuard
+          when={started}
+          navigate={(path) => history.push(path)}
+          shouldBlockNavigation={() => started}
+          content="Are you sure you want to leave 勉強(study)?"
+        />
         <div>
           Words left to benkyou shimasu: [ {wordsLeftToBenkyou.length} /{" "}
           {allWordsToBenkyou.length} ]
