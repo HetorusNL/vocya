@@ -26,8 +26,7 @@
     "release-minor": "yarn version minor && yarn postversion",
     "release-major": "yarn version major && yarn postversion",
     "postversion": "yarn build && yarn git-script",
-    "git-script": "node git-script",
-    "deploy": "./deploy.sh"
+    "git-script": "node git-script"
   },
   "eslintConfig": {
     "extends": [
