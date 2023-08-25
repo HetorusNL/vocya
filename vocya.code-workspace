@@ -10,6 +10,11 @@
       "**/bower_components": true,
       "**/*.code-search": true,
       "**/.yarn": true
+    },
+    "black-formatter.args": ["--line-length", "119"],
+    "python.analysis.typeCheckingMode": "basic",
+    "[python]": {
+      "editor.defaultFormatter": "ms-python.black-formatter"
     }
   }
 }
