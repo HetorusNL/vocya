@@ -28,7 +28,7 @@ jobs:
 
       # build and push the vocya api docker image to ghcr.io
       - name: Build and Push Image to ghcr.io
-        run: ./gha/build-api-container.sh
+        run: ./gha/build-container.sh
         env:
           CI_REGISTRY: ghcr.io/hetorusnl/vocya-api
           DOCKERFILE: api.Dockerfile
@@ -36,7 +36,7 @@ jobs:
 
       # build and push the vocya api docker image to docker hub
       - name: Build and Push Image to Dockerhub
-        run: ./gha/build-api-container.sh
+        run: ./gha/build-container.sh
         env:
           CI_REGISTRY: hetorusnl/vocya-api
           DOCKERFILE: api.Dockerfile
@@ -44,7 +44,7 @@ jobs:
 
       # build and push the vocya dashboard docker image to ghcr.io
       - name: Build and Push Image to ghcr.io
-        run: ./gha/build-dashboard-container.sh
+        run: ./gha/build-container.sh
         env:
           CI_REGISTRY: ghcr.io/hetorusnl/vocya-dashboard
           DOCKERFILE: dashboard.Dockerfile
@@ -52,7 +52,7 @@ jobs:
 
       # build and push the vocya dashboard docker image to docker hub
       - name: Build and Push Image to Dockerhub
-        run: ./gha/build-dashboard-container.sh
+        run: ./gha/build-container.sh
         env:
           CI_REGISTRY: hetorusnl/vocya-dashboard
           DOCKERFILE: dashboard.Dockerfile
