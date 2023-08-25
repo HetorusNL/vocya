@@ -23,11 +23,11 @@ Install the required dependencies:
 `cd api`  
 `poetry install`
 
-Modify the path to the VocJEM database file in `database_file` in `api.py`, if that repository is stored in a different location.
+Modify the path to the VocJEM database file in `database_file` in `main.py`, if that repository is stored in a different location.
 
 Run the API  
 `cd api`  
-`poetry run python3 api.py`
+`poetry run python3 main.py`
 
 ### Example queries
 
@@ -105,3 +105,7 @@ these three commands also perform a push to the master branch on github and push
 run the following command to deploy the new version:  
 `yarn deploy`  
 this removes the previous build from the server and copies the build to the server
+
+## License
+
+MIT License, Copyright (c) 2023 Tim Klein Nijenhuis <tim@hetorus.nl>

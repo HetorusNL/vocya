@@ -1,7 +1,6 @@
 from flask import Flask, jsonify
 
 from vocabulary_db import VocabularyDB
-from db_watcher import DBWatcher
 
 api = Flask(__name__)
 
@@ -104,19 +103,16 @@ def word(wo_id):
     return jsonify(word)
 
 
-if __name__ == "__main__":
-    database_file = "/opt/vocjem/dictionary.json"
+@api.route("/update-database")
+def update_database():
+    _vocabulary_db.update()
+    return jsonify({"result": "success"})
 
+
+if __name__ == "__main__":
     # initialize the vocabulary database
-    _vocabulary_db = VocabularyDB(database_file)
+    _vocabulary_db = VocabularyDB()
     _vocabulary_db.update()
 
-    # initialize the DB watcher that updates the database on file system events
-    _db_watcher = DBWatcher(database_file, _vocabulary_db)
-    _db_watcher.watch()
-
-    # run the api and when stopped/crashed stop the watcher
-    try:
-        api.run()
-    finally:
-        _db_watcher.stop()
+    # run the api as a blocking call
+    api.run(host="0.0.0.0")

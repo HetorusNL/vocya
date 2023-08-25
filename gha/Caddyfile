@@ -1,0 +1,6 @@
+# expose the dashboard on HTTP port 8000
+:8000 {
+	root * /srv/dashboard
+	try_files {path} /index.html
+	file_server
+}
