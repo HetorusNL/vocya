@@ -13,6 +13,6 @@ else
 fi
 
 # build the docker image with the configured registry and tag
-docker build --file api.Dockerfile --build-arg VCS_REF=`git rev-parse --short HEAD` --pull --tag "$CI_REGISTRY:$DOCKER_TAG" .
+docker build --file $DOCKERFILE --build-arg VCS_REF=`git rev-parse --short HEAD` --pull --tag "$CI_REGISTRY:$DOCKER_TAG" .
 # push the built image to the registry
-# docker push "$CI_REGISTRY:$DOCKER_TAG"
+docker push "$CI_REGISTRY:$DOCKER_TAG"

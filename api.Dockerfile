@@ -1,4 +1,4 @@
-FROM hetorusnl/python-poetry:test-fix-run-script
+FROM hetorusnl/python-poetry
 
 # add the api python files to the docker
 COPY api/ /code
