@@ -1,6 +1,10 @@
 # Vocya - vocabulary shop
 
 Front-end for the vocjem data; dashboard and API.
+Both the dashboard and API are available as docker containers:
+
+- https://hub.docker.com/r/hetorusnl/vocya-api
+- https://hub.docker.com/r/hetorusnl/vocya-dashboard
 
 ## API
 
@@ -9,6 +13,8 @@ The API returns a (potentially empty) list of results in JSON format.
 The current API endpoint can be reached at: https://api.vocya.hetorus.nl/.
 
 ### Running the API
+
+Either run the API using the docker container mentioned above, or manually using the steps below.
 
 Install poetry: https://python-poetry.org/docs/
 
@@ -41,6 +47,8 @@ Query words with course='jem1' chapter='jem1-1' and id='jem1-1'
 https://api.vocya.hetorus.nl/course/jem1/chapter/jem1-1/word/jem1-1  
 Searching is no longer supported on the API side, searching within returned words for a course/chapter/all should be performed client-side.
 
+\*change the domain name when running the API locally
+
 ## Dashboard
 
 The front-end dashboard of vocya showing the results of the API calls to the vocya API.
@@ -50,6 +58,10 @@ When clicking on the results, a single result page is opened where the 'raw prop
 'Search only in dutch/hiragana/nihongo/romaji' is enabled by default.
 If this is enabled, only these specific fields (equivalent fields for courses and chapters) are searched instead of every field (including id, chapter, chapter_name, etc) by issuing a 'wildcard search'.
 The current dashboard is hosted at: https://vocya.hetorus.nl
+
+### Running the Dashboard
+
+Either run the Dashboard using the docker container mentioned above, or manually using the steps/scripts below.
 
 ### Configuring yarn
 
@@ -90,6 +102,8 @@ this updates the version number (if changed in `package.json`) and builds the ap
 
 ### Run a build with version increment and git commit creation
 
+// TODO: tagging is not yet working with the squash pull-request way, and not yet available in the github actions workflows
+
 the Semantic Versioning, also known as "semver", is used:  
 version: `major.minor.patch`  
 run one of the following commands:  
@@ -99,12 +113,6 @@ run one of the following commands:
 all these three commands also create a git commit and git tag with the message:  
 `v${npm_package_version}` (which is the major.minor.patch version)  
 these three commands also perform a push to the master branch on github and push the tags
-
-### Deploy the newly generated version to the server
-
-run the following command to deploy the new version:  
-`yarn deploy`  
-this removes the previous build from the server and copies the build to the server
 
 ## License
 
