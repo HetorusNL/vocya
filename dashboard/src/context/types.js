@@ -14,3 +14,4 @@ export const GET_WORDS = "GET_WORDS";
 export const GET_WORD = "GET_WORD";
 export const SET_LOADING = "SET_LOADING";
 export const SET_IS_SEARCHING = "SET_IS_SEARCHING";
+export const ACTION_UPDATE_DATABASE = "ACTION_UPDATE_DATABASE";

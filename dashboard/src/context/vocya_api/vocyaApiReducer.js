@@ -15,6 +15,7 @@ import {
   GET_WORD,
   SET_LOADING,
   SET_IS_SEARCHING,
+  ACTION_UPDATE_DATABASE,
 } from "../types";
 
 const vocyaApiReducer = (state, action) => {
@@ -51,6 +52,8 @@ const vocyaApiReducer = (state, action) => {
       return { ...state, loading: action.payload };
     case SET_IS_SEARCHING:
       return { ...state, isSearching: action.payload };
+    case ACTION_UPDATE_DATABASE:
+      return { ...state, dbUpdateStatus: action.payload };
     default:
       return state;
   }
