@@ -7,10 +7,10 @@ set -Eeuxo pipefail
 if [[ $REF_TYPE == "tag" ]]; then
     # we're running on tag creation, set DOCKER_TAG to that tag
     # make sure that the tag specified is valid
-    DOCKER_TAG=`echo $REF_NAME | sed 's/[^a-zA-Z0-9]/-/g'`
+    DOCKER_TAG=`echo $REF_NAME | sed 's/[^a-zA-Z0-9\._-]/-/g'`
 else # we're running on a branch
     # create a valid docker tag name from the branch name
-    VALID_BRANCH_NAME=`echo $REF_NAME | sed 's/[^a-zA-Z0-9]/-/g'`
+    VALID_BRANCH_NAME=`echo $REF_NAME | sed 's/[^a-zA-Z0-9\._-]/-/g'`
     # if the branch is master, create an image using 'latest', otherwise the valid branch name
     if [[ $VALID_BRANCH_NAME == "master" ]]; then
         DOCKER_TAG=latest
