@@ -112,7 +112,9 @@ Run one of the following commands:
 `yarn release-minor` // increments the `minor` number of the version  
 `yarn release-major` // increments the `major` number of the version
 
-After these commands are executed, make sure to create a tag with matching version number (e.g. matching `v${npm_package_version}`), and push this to the repository.
+After these commands are executed, make sure to create a tag with matching version number (e.g. matching `v${npm_package_version}`), and push this to the repository, e.g:  
+`git tag -a vX.Y.Z -m "vX.Y.Z"`  
+`git push --tags`  
 This causes the CI/CD to create a tagged docker image for both the API and the dashboard with this version number.
 
 ## License
