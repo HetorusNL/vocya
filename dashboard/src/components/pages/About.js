@@ -1,7 +1,12 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useContext, useEffect, useState } from "react";
 import packageJson from "../../../package.json";
+import VocyaApiContext from "../../context/vocya_api/VocyaApiContext";
 
 const About = () => {
+  const vocyaApiContext = useContext(VocyaApiContext);
+
+  const { dbUpdateStatus } = vocyaApiContext;
+
   const [version, setVersion] = useState("loading build date/time...");
 
   useEffect(() => {
@@ -33,6 +38,16 @@ const About = () => {
       <p>
         <i>Build date/time (local timezone): {version}</i>
       </p>
+      <br></br>
+      <div>
+        <div
+          className="btn"
+          onClick={() => vocyaApiContext.actionUpdateDatabase()}
+        >
+          Update database
+        </div>
+        Database update result: {dbUpdateStatus}
+      </div>
     </Fragment>
   );
 };

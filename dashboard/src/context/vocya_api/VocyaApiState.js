@@ -18,6 +18,7 @@ import {
   GET_WORD,
   SET_LOADING,
   SET_IS_SEARCHING,
+  ACTION_UPDATE_DATABASE,
 } from "../types";
 import {
   apiChapter,
@@ -34,6 +35,7 @@ import {
   apiCourseWords,
   apiWord,
   apiWords,
+  apiUpdateDatabase,
 } from "../../components/utils/VocyaAPI";
 
 const VocyaApiState = (props) => {
@@ -46,6 +48,7 @@ const VocyaApiState = (props) => {
     word: {},
     loading: false,
     isSearching: false,
+    dbUpdateStatus: "no update performed",
   };
 
   const [state, dispatch] = useReducer(vocyaApiReducer, initialState);
@@ -148,6 +151,14 @@ const VocyaApiState = (props) => {
     dispatch({ type: GET_WORD, payload: res.data[0] });
   };
 
+  // update the Vocjem database
+  const actionUpdateDatabase = async () => {
+    dispatch({ type: ACTION_UPDATE_DATABASE, payload: "updating database..." });
+    const res = await apiUpdateDatabase();
+    const updateResult = res.data.result || "failure";
+    dispatch({ type: ACTION_UPDATE_DATABASE, payload: updateResult });
+  };
+
   // setup page for new content, clearing loading and is searching
   const setupPageForNewContent = () => {
     setLoading(true);
@@ -173,6 +184,7 @@ const VocyaApiState = (props) => {
         word: state.word,
         loading: state.loading,
         isSearching: state.isSearching,
+        dbUpdateStatus: state.dbUpdateStatus,
         getCourses,
         getCourse,
         getCourseChapters,
@@ -189,6 +201,7 @@ const VocyaApiState = (props) => {
         getWord,
         setLoading,
         setIsSearching,
+        actionUpdateDatabase,
       }}
     >
       {props.children}

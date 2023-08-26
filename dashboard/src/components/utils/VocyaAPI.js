@@ -61,3 +61,7 @@ export const apiWords = async () => {
 export const apiWord = async (id) => {
   return await axios.get(`${API_ENDPOINT}/word/${id}`);
 };
+
+export const apiUpdateDatabase = async () => {
+  return await axios.get(`${API_ENDPOINT}/update-database`);
+};

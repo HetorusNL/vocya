@@ -1,6 +1,6 @@
 {
   "name": "dashboard",
-  "version": "1.1.2",
+  "version": "2.0.0",
   "private": true,
   "dependencies": {
     "axios": "^0.21.1",
@@ -25,8 +25,7 @@
     "release-patch": "yarn version patch && yarn postversion",
     "release-minor": "yarn version minor && yarn postversion",
     "release-major": "yarn version major && yarn postversion",
-    "postversion": "yarn build && yarn git-script",
-    "git-script": "node git-script"
+    "postversion": "yarn build"
   },
   "eslintConfig": {
     "extends": [
