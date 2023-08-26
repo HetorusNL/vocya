@@ -1,6 +1,7 @@
 # Vocya - vocabulary shop
 
-Front-end for the vocjem data; dashboard and API.
+'Vocabulary shop' to view, search and study Japanese words.  
+This is a front-end for the [VocJEM](https://github.com/HetorusNL/vocjem) data; dashboard and API.  
 Both the dashboard and API are available as docker containers:
 
 - https://hub.docker.com/r/hetorusnl/vocya-api
@@ -16,6 +17,8 @@ The current API endpoint can be reached at: https://api.vocya.hetorus.nl/.
 
 Either run the API using the docker container mentioned above, or manually using the steps below.
 
+#### Installing poetry
+
 Install poetry: https://python-poetry.org/docs/
 
 Ensure poetry works by running:  
@@ -25,17 +28,22 @@ Otherwise ensure that the location poetry is installed in, is added to the path.
 Configure poetry to create the virtualenvs in the project folder:  
 `poetry config virtualenvs.in-project true`
 
-Install the required dependencies:  
-`cd api`  
-`poetry install`
+#### Running the API
 
-Modify the path to the VocJEM database file in `database_file` in `main.py`, if that repository is stored in a different location.
+```bash
+# go to the api directory
+cd api
 
-Run the API  
-`cd api`  
-`poetry run python3 main.py`
+# install the required dependencies
+poetry install
+
+# run the API
+poetry run python3 main.py
+```
 
 ### Example queries
+
+_Make sure to change the `api.vocya.hetorus.nl` domain name when running the API locally_
 
 Query all words  
 https://api.vocya.hetorus.nl/words  
@@ -47,11 +55,9 @@ Query words with course='jem1' chapter='jem1-1' and id='jem1-1'
 https://api.vocya.hetorus.nl/course/jem1/chapter/jem1-1/word/jem1-1  
 Searching is no longer supported on the API side, searching within returned words for a course/chapter/all should be performed client-side.
 
-\*change the domain name when running the API locally
-
 ## Dashboard
 
-The front-end dashboard of vocya showing the results of the API calls to the vocya API.
+The front-end dashboard of Vocya showing the results of the API calls to the Vocya API.
 By default 'live search' is enabled, and every keystroke sends a 'search' API call and shows the results.
 When 'live search' is disabled by clicking on the button, a manual search button is enabled to send the 'search' API call when clicked.
 When clicking on the results, a single result page is opened where the 'raw properties' are shown.
@@ -76,43 +82,38 @@ sudo apt remove yarn
 # enable corepack
 corepack enable
 
-# updating the global yarn version
-corepack prepare yarn@stable --activate
-
-# initialize yarn
-yarn init -2
-
 # update to the latest version
 yarn set version stable
+
+# install the dependencies of the project
+yarn install
 ```
 
 ## Scripts
 
 ### Run the development server
 
-run the following command to run the dev server:  
+Run the following command to run the dev server:  
 `yarn start`  
-this starts the development server on `localhost:3000`
+This starts the development server on `localhost:3000`
 
 ### Run a build (without incrementing version number)
 
-run the following command to build the application:  
+Run the following command to build the application:  
 `yarn build`  
-this updates the version number (if changed in `package.json`) and builds the application
+This updates the version number (if changed in `package.json`) and builds the application
 
-### Run a build with version increment and git commit creation
+### Increment the version number of Vocya
 
-// TODO: tagging is not yet working with the squash pull-request way, and not yet available in the github actions workflows
-
-the Semantic Versioning, also known as "semver", is used:  
-version: `major.minor.patch`  
-run one of the following commands:  
+The Semantic Versioning, also known as "semver", is used:  
+Version: `major.minor.patch`  
+Run one of the following commands:  
 `yarn release-patch` // increments the `patch` number of the version  
 `yarn release-minor` // increments the `minor` number of the version  
-`yarn release-major` // increments the `major` number of the version  
-all these three commands also create a git commit and git tag with the message:  
-`v${npm_package_version}` (which is the major.minor.patch version)  
-these three commands also perform a push to the master branch on github and push the tags
+`yarn release-major` // increments the `major` number of the version
+
+After these commands are executed, make sure to create a tag with matching version number (e.g. matching `v${npm_package_version}`), and push this to the repository.
+This causes the CI/CD to create a tagged docker image for both the API and the dashboard with this version number.
 
 ## License
 
