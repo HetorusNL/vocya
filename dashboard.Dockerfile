@@ -6,7 +6,6 @@ COPY dashboard/ /code
 # build the project
 RUN cd /code && \
     corepack enable && \
-    yarn set version stable && \
     yarn install && \
     yarn build
 

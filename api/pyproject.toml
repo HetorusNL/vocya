@@ -1,18 +1,19 @@
-[tool.black]
-line-length = 119
-
-[tool.poetry]
+[project]
 name = "api"
 version = "0.1.0"
-description = ""
-authors = ["Tim Klein Nijenhuis <tim@hetorus.nl>"]
+description = "Vocya API for learning Japanese words"
+authors = [{"name" = "Tim Klein Nijenhuis", "email" = "tim@hetorus.nl"}]
+license = "MIT"
+requires-python = ">=3.14"
+dependencies = [
+    "flask>=3.1.3",
+    "requests>=2.34.2",
+]
 
-[tool.poetry.dependencies]
-python = "^3.8"
-black = "^22.12.0"
-flask = "^2.2.2"
-requests = "^2.31.0"
+[dependency-groups]
+dev = [
+    "black>=26.10.1",
+]
 
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+[tool.black]
+line-length = 120

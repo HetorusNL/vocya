@@ -17,16 +17,12 @@ The current API endpoint can be reached at: https://api.vocya.hetorus.nl/.
 
 Either run the API using the docker container mentioned above, or manually using the steps below.
 
-#### Installing poetry
+#### Installing uv
 
-Install poetry: https://python-poetry.org/docs/
+Install uv: https://docs.astral.sh/uv/getting-started/installation/
 
-Ensure poetry works by running:  
-`poetry --version`  
-Otherwise ensure that the location poetry is installed in, is added to the path.
-
-Configure poetry to create the virtualenvs in the project folder:  
-`poetry config virtualenvs.in-project true`
+Ensure uv works by running:  
+`uv --version`
 
 #### Running the API
 
@@ -34,11 +30,11 @@ Configure poetry to create the virtualenvs in the project folder:
 # go to the api directory
 cd api
 
-# install the required dependencies
-poetry install
+# install the required dependencies (creates a .venv in the api directory)
+uv sync
 
 # run the API
-poetry run python3 main.py
+uv run python3 main.py
 ```
 
 ### Example queries
